@@ -37,10 +37,12 @@ jobs:
         run: npm run build
         env:
           GITHUB_ACTIONS: "true"
-          NEXT_PUBLIC_BASE_PATH: "/apps-codelove"
+          NEXT_PUBLIC_BASE_PATH: ""
 
-      - name: Ensure .nojekyll exists in out
-        run: touch ./out/.nojekyll
+      - name: Ensure .nojekyll and CNAME exist in out
+        run: |
+          touch ./out/.nojekyll
+          [ -f ./public/CNAME ] && cp ./public/CNAME ./out/CNAME || true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
