@@ -1,4 +1,5 @@
 import AppScreen from "./AppScreen";
+import { assetUrl } from "@/lib/asset";
 
 /*
   A CSS smartphone frame.
@@ -20,7 +21,7 @@ export default function MobilePreview({ app, screenIndex = 0, image, width = 280
         <span className="phone-island" aria-hidden="true" />
         {src ? (
           // eslint-disable-next-line @next/next/no-img-element -- user-supplied screenshot of unknown size/origin
-          <img src={src} alt={alt || `${app?.name || "App"} screenshot${label}`} loading="lazy" />
+          <img src={assetUrl(src)} alt={alt || `${app?.name || "App"} screenshot${label}`} loading="lazy" />
         ) : (
           <AppScreen app={app} screen={screen} />
         )}

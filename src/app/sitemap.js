@@ -1,6 +1,8 @@
 import { apps } from "@/data/apps";
 import { site } from "@/data/site";
 
+export const dynamic = "force-static";
+
 export default function sitemap() {
   const now = new Date();
   const pages = [

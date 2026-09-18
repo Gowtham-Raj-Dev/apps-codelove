@@ -1,6 +1,8 @@
 import { ImageResponse } from "next/og";
 import { site } from "@/data/site";
 
+export const dynamic = "force-static";
+
 // Social preview image, generated at build time (1200×630).
 export const alt = `${site.name} — Useful mobile apps by ${site.developer}`;
 export const size = { width: 1200, height: 630 };

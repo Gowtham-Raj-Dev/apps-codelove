@@ -1,4 +1,5 @@
 import { Clock, Download } from "lucide-react";
+import { assetUrl } from "@/lib/asset";
 
 /*
   The single place that turns app.apkUrl into a download link.
@@ -28,7 +29,7 @@ export default function DownloadButton({
 
   return (
     <a
-      href={app.apkUrl}
+      href={assetUrl(app.apkUrl)}
       download={fileName}
       className={classes}
       aria-label={`${label} ${app.name} (${app.platform} APK, ${app.size})`}

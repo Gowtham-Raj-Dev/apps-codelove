@@ -1,4 +1,5 @@
 import { Icon } from "./icons";
+import { assetUrl } from "@/lib/asset";
 
 /*
   Renders an app icon.
@@ -12,7 +13,7 @@ export default function AppIcon({ app, size = 64, className = "" }) {
     return (
       <span className={`app-icon ${className}`} style={style}>
         {/* eslint-disable-next-line @next/next/no-img-element -- user-supplied image of unknown size/origin */}
-        <img src={app.iconImage} alt={`${app.name} app icon`} loading="lazy" />
+        <img src={assetUrl(app.iconImage)} alt={`${app.name} app icon`} loading="lazy" />
       </span>
     );
   }
