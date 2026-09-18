@@ -1,0 +1,39 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# env files
+.env*
+
+# vercel
+.vercel
+
+# real APK builds are large binaries — keep them out of git if you prefer
+# /public/downloads/*.apk
+
+# android apps (src/android-apps) — Gradle output, built APKs and signing secrets
+src/android-apps/build
+src/android-apps/app/build
+src/android-apps/dist
+src/android-apps/.gradle
+src/android-apps/.idea
+src/android-apps/.kotlin
+src/android-apps/local.properties
+src/android-apps/keystore/
+src/android-apps/keystore.properties
+src/android-apps/*.iml

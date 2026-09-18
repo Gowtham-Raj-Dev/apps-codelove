@@ -1,0 +1,8 @@
+<resources>
+    <string name="offline_title">You are offline</string>
+    <string name="offline_body">This app needs a connection the first time it opens. Your saved data is safe on this device.</string>
+    <string name="offline_retry">Try again</string>
+    <string name="copied">Copied to clipboard</string>
+    <string name="share_via">Share via</string>
+    <string name="loading">Loading…</string>
+</resources>

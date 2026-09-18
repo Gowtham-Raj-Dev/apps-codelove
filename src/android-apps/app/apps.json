@@ -1,0 +1,110 @@
+[
+  {
+    "flavor": "clipdropper",
+    "id": "clipdropper",
+    "name": "ClipDropper",
+    "versionName": "1.2.0",
+    "versionCode": 10200,
+    "url": "https://apps.codelove.in/clipdropper/app",
+    "host": "apps.codelove.in",
+    "deepLinkPath": "/clipdropper/app",
+    "accent": "#7C6CFF",
+    "accentLight": "#B18CFF"
+  },
+  {
+    "flavor": "snaptools",
+    "id": "snaptools",
+    "name": "SnapTools",
+    "versionName": "1.4.1",
+    "versionCode": 10401,
+    "url": "https://apps.codelove.in/snaptools/app",
+    "host": "apps.codelove.in",
+    "deepLinkPath": "/snaptools/app",
+    "accent": "#22C1C3",
+    "accentLight": "#6EE7B7"
+  },
+  {
+    "flavor": "frameflow",
+    "id": "frameflow",
+    "name": "FrameFlow",
+    "versionName": "2.0.0",
+    "versionCode": 20000,
+    "url": "https://apps.codelove.in/frameflow/app",
+    "host": "apps.codelove.in",
+    "deepLinkPath": "/frameflow/app",
+    "accent": "#FF6B9A",
+    "accentLight": "#FFA07A"
+  },
+  {
+    "flavor": "notenest",
+    "id": "notenest",
+    "name": "NoteNest",
+    "versionName": "1.0.3",
+    "versionCode": 10003,
+    "url": "https://apps.codelove.in/notenest/app",
+    "host": "apps.codelove.in",
+    "deepLinkPath": "/notenest/app",
+    "accent": "#F59E0B",
+    "accentLight": "#FCD34D"
+  },
+  {
+    "flavor": "qrvault",
+    "id": "qr-vault",
+    "name": "QR Vault",
+    "versionName": "1.5.0",
+    "versionCode": 10500,
+    "url": "https://apps.codelove.in/qr-vault/app",
+    "host": "apps.codelove.in",
+    "deepLinkPath": "/qr-vault/app",
+    "accent": "#0EA5E9",
+    "accentLight": "#67E8F9"
+  },
+  {
+    "flavor": "imageswift",
+    "id": "imageswift",
+    "name": "ImageSwift",
+    "versionName": "1.1.0",
+    "versionCode": 10100,
+    "url": "https://apps.codelove.in/imageswift/app",
+    "host": "apps.codelove.in",
+    "deepLinkPath": "/imageswift/app",
+    "accent": "#A855F7",
+    "accentLight": "#F472B6"
+  },
+  {
+    "flavor": "filepocket",
+    "id": "filepocket",
+    "name": "FilePocket",
+    "versionName": "1.0.8",
+    "versionCode": 10008,
+    "url": "https://apps.codelove.in/filepocket/app",
+    "host": "apps.codelove.in",
+    "deepLinkPath": "/filepocket/app",
+    "accent": "#64748B",
+    "accentLight": "#94A3B8"
+  },
+  {
+    "flavor": "quickscan",
+    "id": "quickscan",
+    "name": "QuickScan",
+    "versionName": "1.3.2",
+    "versionCode": 10302,
+    "url": "https://apps.codelove.in/quickscan/app",
+    "host": "apps.codelove.in",
+    "deepLinkPath": "/quickscan/app",
+    "accent": "#10B981",
+    "accentLight": "#5EEAD4"
+  },
+  {
+    "flavor": "dailyloop",
+    "id": "dailyloop",
+    "name": "DailyLoop",
+    "versionName": "1.0.1",
+    "versionCode": 10001,
+    "url": "https://apps.codelove.in/dailyloop/app",
+    "host": "apps.codelove.in",
+    "deepLinkPath": "/dailyloop/app",
+    "accent": "#FB7185",
+    "accentLight": "#FDBA74"
+  }
+]
