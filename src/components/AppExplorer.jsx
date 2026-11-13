@@ -40,37 +40,33 @@ export default function AppExplorer() {
       const inCategory = category === "All" || app.category === category;
       if (!inCategory) return false;
       if (!q) return true;
-      return [app.name, app.category, app.description, app.tagline].join(" ").toLowerCase().includes(q);
+      return [app.name, app.category, app.genre, app.description, app.tagline].join(" ").toLowerCase().includes(q);
     });
   }, [query, category]);
 
   return (
     <>
-      <div className="explorer-controls">
-        <SearchBar value={query} onChange={setQuery} />
-        <div className="explorer-toolbar">
+      <div className="explorer">
+        <SearchBar value={query} onChange={setQuery} placeholder="Search games and apps" />
+        <div className="explorer-bar">
           <CategoryFilter value={category} onChange={setCategory} counts={counts} />
           <p className="results-count" aria-live="polite">
-            Showing <strong>{results.length}</strong> of {apps.length} apps
+            <strong>{results.length}</strong> of {apps.length} apps
           </p>
         </div>
       </div>
 
-      {/* key re-mounts the grid so cards animate in when filters change */}
-      <div className="apps-grid" key={`${category}-${query}`}>
+      <div className="apps-grid">
         {results.length > 0 ? (
-          results.map((app, i) => <AppCard key={app.id} app={app} index={i} />)
+          results.map((app, i) => <AppCard key={app.id} app={app} eager={i < 4} />)
         ) : (
-          <div className="empty-state">
-            <span className="feature-icon">
-              <SearchX size={22} aria-hidden="true" />
-            </span>
+          <div className="empty">
+            <SearchX size={28} aria-hidden="true" />
             <h3>No apps found</h3>
-            <p>Try a different search term or pick another category.</p>
+            <p>Try another word or category.</p>
             <button
               type="button"
               className="btn btn-secondary btn-sm"
-              style={{ marginTop: 18 }}
               onClick={() => {
                 setQuery("");
                 setCategory("All");

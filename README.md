@@ -49,9 +49,20 @@ public/
   screenshots/             Optional real screenshots
 ```
 
-## Replacing the dummy apps
+## The app catalogue
 
-Everything on the site is driven by `src/data/apps.js`. For each app:
+Everything on the site — and every Android app in `src/android-apps` — is driven by `src/data/apps.js`:
+
+- `apps.js` — ClipDropper (its web app is part of this site) and the field guide
+- `apps-web.js` — apps that wrap another CodeLove site by its embed URL: Insta Downloader,
+  Link in Bio, VideoCut, Video to GIF, plus JavaPlay (own native APK)
+- `apps-games.js` — one landscape, full-screen app per game on games.codelove.in
+
+New apps start with `comingSoon: true`. After `.\build-app.ps1 <id> -Publish` has copied the
+signed APK to `public/downloads/`, remove `comingSoon` so the Download button goes live.
+See `src/android-apps/README.md` for the Android side.
+
+For each app:
 
 1. Set `apkUrl` to the real file — either `/downloads/your-app.apk` (drop the file in `public/downloads/`)
    or a full external URL. Every Download button uses this field.

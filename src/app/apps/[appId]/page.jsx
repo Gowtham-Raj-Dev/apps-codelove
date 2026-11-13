@@ -1,34 +1,17 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import {
-  ArrowRight,
-  Calendar,
-  Check,
-  Clock,
-  Download,
-  FileText,
-  Globe,
-  HardDrive,
-  Info,
-  LayoutGrid,
-  ShieldCheck,
-  Smartphone,
-  Star,
-  Tag,
-  User,
-} from "lucide-react";
+import { Calendar, Check, ExternalLink, Gamepad2, HardDrive, Info, LayoutGrid, ShieldCheck, Smartphone, Tag, User } from "lucide-react";
 import Breadcrumb from "@/components/Breadcrumb";
 import AppIcon from "@/components/AppIcon";
 import AppCard from "@/components/AppCard";
 import DownloadButton from "@/components/DownloadButton";
 import ShareButton from "@/components/ShareButton";
-import FeatureCard from "@/components/FeatureCard";
-import MobilePreview from "@/components/MobilePreview";
-import Reveal from "@/components/Reveal";
+import Rail from "@/components/Rail";
+import { Icon } from "@/components/icons";
 import { apps, getAppById, getRelatedApps } from "@/data/apps";
 import { site } from "@/data/site";
+import { assetUrl } from "@/lib/asset";
 
-// Pre-render a page for every app at build time
 export function generateStaticParams() {
   return apps.map((app) => ({ appId: app.id }));
 }
@@ -39,19 +22,15 @@ export async function generateMetadata({ params }) {
   if (!app) return { title: "App not found" };
 
   const description = app.comingSoon
-    ? `${app.tagline}. ${app.description} ${app.name} for Android is coming soon to Codelove Apps.`
-    : `${app.tagline}. ${app.description} Download the ${app.name} Android APK (v${app.version}, ${app.size}) from Codelove Apps.`;
+    ? `${app.tagline}. ${app.description} ${app.name} for Android is coming soon to CodeLove Apps.`
+    : `${app.tagline}. ${app.description} Download the free ${app.name} Android APK (v${app.version}, ${app.size}).`;
+  const image = app.cover ? [{ url: app.cover, width: 1200, height: 630, alt: app.name }] : undefined;
   return {
     title: `${app.name} — ${app.tagline}`,
     description,
     alternates: { canonical: `/apps/${app.id}` },
-    openGraph: {
-      title: `${app.name} — ${app.tagline}`,
-      description,
-      url: `${site.url}/apps/${app.id}`,
-      type: "website",
-    },
-    twitter: { title: `${app.name} — ${app.tagline}`, description },
+    openGraph: { title: `${app.name} — ${app.tagline}`, description, url: `${site.url}/apps/${app.id}`, type: "website", images: image },
+    twitter: { card: "summary_large_image", title: `${app.name} — ${app.tagline}`, description, images: image?.map((i) => i.url) },
   };
 }
 
@@ -60,346 +39,230 @@ export default async function AppDetailPage({ params }) {
   const app = getAppById(appId);
   if (!app) notFound();
 
-  const related = getRelatedApps(app, 3);
-  // For unreleased apps, point people at something they can use today
-  const liveApp = app.comingSoon ? apps.find((a) => !a.comingSoon) : null;
-  const hasRealShots = app.screenshots && app.screenshots.length > 0;
-  const shots = hasRealShots ? app.screenshots : app.screens;
+  const isGame = app.category === "Games" && app.id !== "javaplay";
+  const related = getRelatedApps(app, 8);
+  const backdrop = app.gallery[1] || app.cover;
 
-  const specs = [
-    { icon: Smartphone, label: "App name", value: app.name },
+  const info = [
     { icon: Tag, label: "Version", value: app.version },
-    { icon: LayoutGrid, label: "Category", value: app.category },
     { icon: HardDrive, label: "Size", value: app.size },
-    { icon: ShieldCheck, label: "Android version", value: app.androidVersion },
-    { icon: Download, label: "Downloads", value: app.comingSoon ? "Coming soon" : app.downloads },
-    { icon: Calendar, label: "Last updated", value: app.updated },
-    { icon: User, label: "Developer", value: `${site.developer} · Codelove` },
+    { icon: ShieldCheck, label: "Requires", value: app.androidVersion },
+    { icon: Calendar, label: "Updated", value: app.updated },
+    { icon: LayoutGrid, label: "Category", value: app.genre || app.category },
+    { icon: Smartphone, label: "Screen", value: app.android?.orientation === "landscape" ? "Landscape, full screen" : "Portrait & landscape" },
+    { icon: User, label: "Developer", value: `${site.developer} · CodeLove` },
+    { icon: Info, label: "Price", value: "Free" },
   ];
 
-  // Structured data so search engines understand this is a downloadable app
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
+    "@type": isGame ? "VideoGame" : "SoftwareApplication",
     name: app.name,
     description: app.description,
-    applicationCategory: `${app.category}Application`,
+    applicationCategory: isGame ? "GameApplication" : `${app.category}Application`,
     operatingSystem: app.androidVersion,
     softwareVersion: app.version,
     fileSize: app.size,
-    // No download link for apps that are not released yet
-    ...(app.comingSoon ? {} : { downloadUrl: `${site.url}${app.apkUrl}` }),
+    ...(app.cover ? { image: new URL(app.cover, site.url).href } : {}),
+    ...(app.comingSoon ? {} : { downloadUrl: new URL(app.apkUrl, site.url).href }),
     author: { "@type": "Person", name: site.developer, url: site.parentSiteUrl },
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    publisher: { "@id": "https://codelove.in/#organization" },
+    offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
   };
 
   return (
     <article style={{ "--accent": app.accent }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* Hero ------------------------------------------------------------- */}
-      <section className="page-header" aria-labelledby="app-title">
-        <div className="ambient" aria-hidden="true">
-          <div className="ambient-grid" />
-          <div className="blob blob-1" style={{ background: `radial-gradient(circle, ${app.accent}55, transparent 65%)` }} />
-          <div className="blob blob-2" />
-        </div>
+      <section className="detail-hero" aria-labelledby="app-title">
+        {backdrop && (
+          <div className="detail-backdrop" aria-hidden="true">
+            {/* eslint-disable-next-line @next/next/no-img-element -- decorative blurred art */}
+            <img src={assetUrl(backdrop)} alt="" />
+          </div>
+        )}
         <div className="container">
-          <Reveal variant="fade">
-            <Breadcrumb
-              items={[
-                { label: "Home", href: "/" },
-                { label: "Apps", href: "/apps" },
-                { label: app.name, href: `/apps/${app.id}` },
-              ]}
-            />
-          </Reveal>
+          <Breadcrumb
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Apps", href: "/apps" },
+              { label: app.name, href: `/apps/${app.id}` },
+            ]}
+          />
 
-          <div className="detail-hero">
-            <Reveal delay={60}>
-              <div className="detail-identity">
-                <AppIcon app={app} size={104} />
+          <div className="detail-grid">
+            <div>
+              <div className="detail-head">
+                <AppIcon app={app} size={96} />
                 <div>
-                  <span className="pill pill-soft">{app.category}</span>
                   <h1 id="app-title">{app.name}</h1>
+                  <p className="detail-by">
+                    {site.developer} · CodeLove · {app.genre || app.category}
+                  </p>
                 </div>
               </div>
               <p className="detail-tagline">{app.tagline}</p>
 
-              <div className="detail-stats">
-                {app.comingSoon ? (
-                  <div className="detail-stat detail-stat--soon">
-                    <small>Status</small>
-                    <strong>
-                      <Clock size={16} aria-hidden="true" /> Coming soon
-                    </strong>
-                  </div>
-                ) : (
-                  <>
-                    <div className="detail-stat">
-                      <small>Rating</small>
-                      <strong>
-                        <Star size={16} aria-hidden="true" /> {app.rating}
-                      </strong>
-                    </div>
-                    <div className="detail-stat">
-                      <small>Downloads</small>
-                      <strong>{app.downloads}</strong>
-                    </div>
-                  </>
-                )}
-                <div className="detail-stat">
-                  <small>Version</small>
-                  <strong>{app.version}</strong>
-                </div>
-                <div className="detail-stat">
-                  <small>Updated</small>
-                  <strong>{app.updated}</strong>
-                </div>
+              <div className="detail-chips">
+                {app.comingSoon ? <span className="chip">Coming soon</span> : <span className="chip chip-live">Available</span>}
+                <span className="chip">Free</span>
+                <span className="chip">No account</span>
+                {isGame && <span className="chip">Landscape · full screen</span>}
               </div>
 
               <div className="detail-actions">
                 <DownloadButton app={app} label="Download APK" size="lg" />
                 {app.webAppUrl && (
-                  <Link href={app.webAppUrl} className="btn btn-secondary btn-lg">
-                    <Globe size={18} aria-hidden="true" />
-                    Open web app
-                  </Link>
+                  <a href={app.webAppUrl} className="btn btn-secondary btn-lg hub-hide" target="_blank" rel="noreferrer">
+                    {isGame ? <Gamepad2 size={18} aria-hidden="true" /> : <ExternalLink size={17} aria-hidden="true" />}
+                    {isGame ? "Play in browser" : "Use online"}
+                  </a>
                 )}
-                <ShareButton title={app.name} text={app.description} className="btn btn-secondary btn-lg" />
+                <ShareButton title={app.name} text={app.description} className="btn btn-ghost btn-lg" />
               </div>
-            </Reveal>
 
-            <Reveal variant="scale" delay={160}>
-              <div className="download-panel">
-                <div className="download-panel-head">
-                  <h3>{app.comingSoon ? "Coming soon" : "Direct APK download"}</h3>
-                  <span className="platform-tag">
-                    <Smartphone size={14} aria-hidden="true" />
-                    Android APK
-                  </span>
+              <dl className="detail-facts">
+                <div>
+                  <dt>Version</dt>
+                  <dd>{app.version}</dd>
                 </div>
-                <dl className="download-rows">
-                  <div>
-                    <dt>Version</dt>
-                    <dd>{app.version}</dd>
-                  </div>
-                  <div>
-                    <dt>Size</dt>
-                    <dd>{app.size}</dd>
-                  </div>
-                  <div>
-                    <dt>Requires</dt>
-                    <dd>{app.androidVersion}</dd>
-                  </div>
-                  <div>
-                    <dt>Updated</dt>
-                    <dd>{app.updated}</dd>
-                  </div>
-                </dl>
-                <DownloadButton app={app} label="Download APK" className="btn-block" />
-                {app.webAppUrl && (
-                  <Link href={app.webAppUrl} className="btn btn-secondary btn-block" style={{ marginTop: 10 }}>
-                    <Globe size={17} aria-hidden="true" />
-                    Use it in the browser
-                  </Link>
-                )}
-                <p className="download-note">
-                  <Info size={14} aria-hidden="true" />
-                  {app.comingSoon
-                    ? `${app.name} is still in development. The Android APK will be available here as a direct download once it is released.`
-                    : "Distributed directly by Codelove as an Android APK. You may need to allow installs from unknown sources on your device."}
-                </p>
+                <div>
+                  <dt>Size</dt>
+                  <dd>{app.size}</dd>
+                </div>
+                <div>
+                  <dt>Android</dt>
+                  <dd>{app.androidVersion.replace("Android ", "")}</dd>
+                </div>
+                <div>
+                  <dt>Price</dt>
+                  <dd>Free</dd>
+                </div>
+              </dl>
+
+              <p className="detail-note hub-hide">
+                <Info size={14} aria-hidden="true" />
+                {app.comingSoon
+                  ? `${app.name} for Android is being finished. The APK will be on this page when it is ready${app.webAppUrl ? "; until then, use it online." : "."}`
+                  : "Direct APK from CodeLove. Android may ask you to allow installs from your browser the first time."}
+              </p>
+            </div>
+
+            {app.cover && (
+              <div className="detail-art">
+                {/* eslint-disable-next-line @next/next/no-img-element -- static export, local art */}
+                <img src={assetUrl(app.cover)} alt={`${app.name} cover art`} width={1200} height={630} fetchPriority="high" />
               </div>
-            </Reveal>
+            )}
           </div>
         </div>
       </section>
 
-      {/* Screenshots ------------------------------------------------------ */}
-      <section className="section" aria-labelledby="shots-title" style={{ paddingTop: 24 }}>
-        <div className="container">
-          <Reveal className="section-head">
-            <div>
-              <span className="eyebrow">Screens</span>
-              <h2 id="shots-title" style={{ marginTop: 14 }}>
-                A look inside {app.name}
-              </h2>
+      {app.gallery.length > 1 && (
+        <section className="section" aria-labelledby="gallery-title" style={{ paddingTop: 8 }}>
+          <div className="container">
+            <div className="section-head">
+              <h2 id="gallery-title">Screenshots</h2>
             </div>
-          </Reveal>
-          <Reveal variant="fade" delay={80}>
-            <div className="shots" role="list" aria-label={`${app.name} screenshots`}>
-              {shots.map((shot, i) => {
-                // Real screenshots can be a plain URL or { src, label }
-                const src = typeof shot === "string" ? shot : shot.src;
-                const label = hasRealShots ? shot.label || app.screens?.[i]?.title || `Screen ${i + 1}` : shot.title;
-                return (
-                  <div className="shot" role="listitem" key={i}>
-                    {hasRealShots ? (
-                      <MobilePreview app={app} image={src} width={244} alt={`${app.name} — ${label}`} />
-                    ) : (
-                      <MobilePreview app={app} screenIndex={i} width={244} />
-                    )}
-                    <span>{label}</span>
-                  </div>
-                );
-              })}
-            </div>
-            <p className="shots-hint">Swipe to see more</p>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* About + features --------------------------------------------------- */}
-      <section className="section" aria-labelledby="about-app-title" style={{ paddingTop: 0 }}>
-        <div className="container">
-          <div className="about-app">
-            <Reveal variant="left" className="about-app-copy">
-              <span className="eyebrow">About the app</span>
-              <h2 id="about-app-title">Built to solve a simple problem.</h2>
-              <div className="lead" style={{ marginTop: 18 }}>
-                {app.about.map((paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
-                ))}
-              </div>
-            </Reveal>
-            <div>
-              <Reveal variant="fade">
-                <h3 style={{ marginBottom: 18 }}>Features</h3>
-              </Reveal>
-              <div className="features-grid">
-                {app.features.map((feature, i) => (
-                  <Reveal key={feature.title} delay={i * 70}>
-                    <FeatureCard icon={feature.icon} title={feature.title} text={feature.text} accent={i === 0} />
-                  </Reveal>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* App information ---------------------------------------------------- */}
-      <section className="section" aria-labelledby="info-title" style={{ paddingTop: 0 }}>
-        <div className="container">
-          <Reveal variant="scale" className="spec-panel">
-            <span className="eyebrow">Information</span>
-            <h2 id="info-title" style={{ marginTop: 14, marginBottom: 24, fontSize: "clamp(1.6rem, 3vw, 2.2rem)" }}>
-              App information
-            </h2>
-            <dl className="spec-grid">
-              {specs.map(({ icon: Icon, label, value }) => (
-                <div className="spec-row" key={label}>
-                  <dt>
-                    <Icon size={16} aria-hidden="true" />
-                    {label}
-                  </dt>
-                  <dd>{value}</dd>
-                </div>
+            <div className="gallery">
+              {app.gallery.map((src, i) => (
+                // eslint-disable-next-line @next/next/no-img-element -- static export, local art
+                <img key={src} src={assetUrl(src)} alt={`${app.name} screenshot ${i + 1}`} loading="lazy" decoding="async" />
               ))}
-            </dl>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Release notes (only once the app has shipped) ----------------------- */}
-      {!app.comingSoon && (
-      <section className="section" id="release-notes" aria-labelledby="notes-title" style={{ paddingTop: 0 }}>
-        <div className="container">
-          <Reveal className="section-head">
-            <div>
-              <span className="eyebrow">Changelog</span>
-              <h2 id="notes-title" style={{ marginTop: 14, fontSize: "clamp(1.6rem, 3vw, 2.2rem)" }}>
-                Release notes
-              </h2>
             </div>
-          </Reveal>
-          <div className="release-notes">
-            {app.releaseNotes.map((note, i) => (
-              <Reveal key={note.version} delay={i * 80} className={`release-note ${i === 0 ? "release-note--latest" : ""}`}>
-                <div className="release-note-version">
-                  <strong>v{note.version}</strong>
-                  <span>{note.date}</span>
-                </div>
-                <ul>
-                  {note.notes.map((line) => (
-                    <li key={line}>
-                      <Check size={16} aria-hidden="true" />
-                      {line}
-                    </li>
-                  ))}
-                </ul>
-              </Reveal>
-            ))}
           </div>
-        </div>
-      </section>
+        </section>
       )}
 
-      {/* Download card ------------------------------------------------------ */}
-      <section className="section" aria-labelledby="download-title" style={{ paddingTop: 0 }}>
-        <div className="container">
-          <Reveal variant="scale" className="download-card">
-            <AppIcon app={app} size={84} />
-            <h2 id="download-title">{app.comingSoon ? `${app.name} is coming soon` : "Ready to try it?"}</h2>
-            <p className="lead">
-              {app.comingSoon
-                ? "We're putting the finishing touches on it. Check back here — the APK will land on this page the day it ships."
-                : "Download the latest version and experience the app for yourself."}
-            </p>
-            <div className="download-card-actions">
-              <DownloadButton app={app} label="Download APK" size="lg" />
-              {app.comingSoon ? (
-                liveApp && (
-                  <Link href={`/apps/${liveApp.id}`} className="btn btn-secondary btn-lg">
-                    Try {liveApp.name} meanwhile <ArrowRight size={18} className="btn-arrow" aria-hidden="true" />
-                  </Link>
-                )
-              ) : (
-                <a href="#release-notes" className="btn btn-secondary btn-lg">
-                  <FileText size={18} aria-hidden="true" />
-                  View release notes
-                </a>
-              )}
+      <section className="section" aria-labelledby="about-app-title">
+        <div className="container detail-cols">
+          <div>
+            <h2 id="about-app-title" style={{ marginBottom: 16 }}>
+              About {app.name}
+            </h2>
+            <div className="prose-lg">
+              {app.about.map((paragraph, i) => (
+                <p key={i}>{paragraph}</p>
+              ))}
             </div>
-            <div className="download-card-meta">
-              <span>
-                <Smartphone size={14} aria-hidden="true" /> Android APK · {app.comingSoon ? "Coming soon" : "Direct download"}
-              </span>
-              <span>
-                <Tag size={14} aria-hidden="true" /> v{app.version}
-              </span>
-              <span>
-                <HardDrive size={14} aria-hidden="true" /> {app.size}
-              </span>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Related ------------------------------------------------------------ */}
-      <section className="section" aria-labelledby="related-title" style={{ paddingTop: 0 }}>
-        <div className="container">
-          <Reveal className="section-head">
-            <div>
-              <span className="eyebrow">More apps</span>
-              <h2 id="related-title" style={{ marginTop: 14, fontSize: "clamp(1.6rem, 3vw, 2.2rem)" }}>
-                You might also like
-              </h2>
-            </div>
-            <Link href="/apps" className="link-arrow">
-              All apps <ArrowRight size={18} aria-hidden="true" />
-            </Link>
-          </Reveal>
-          <div className="related-grid">
-            {related.map((item, i) => (
-              <Reveal key={item.id} delay={i * 100}>
-                <AppCard app={item} index={i} />
-              </Reveal>
-            ))}
+          </div>
+          <div>
+            <h2 style={{ marginBottom: 16 }}>Features</h2>
+            <ul className="features">
+              {app.features.map((feature) => (
+                <li key={feature.title} className="feature">
+                  <span className="feature-icon">
+                    <Icon name={feature.icon} size={19} aria-hidden="true" />
+                  </span>
+                  <div>
+                    <h3>{feature.title}</h3>
+                    <p>{feature.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
+
+      <section className="section" aria-labelledby="info-title" style={{ paddingTop: 0 }}>
+        <div className="container">
+          <div className="section-head">
+            <h2 id="info-title">App information</h2>
+          </div>
+          <dl className="info-grid">
+            {info.map(({ icon: InfoIcon, label, value }) => (
+              <div key={label}>
+                <dt>
+                  <InfoIcon size={15} aria-hidden="true" />
+                  {label}
+                </dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      {!app.comingSoon && app.releaseNotes?.length > 0 && (
+        <section className="section" id="release-notes" aria-labelledby="notes-title" style={{ paddingTop: 0 }}>
+          <div className="container">
+            <div className="section-head">
+              <h2 id="notes-title">What&apos;s new</h2>
+            </div>
+            <div className="notes">
+              {app.releaseNotes.map((note) => (
+                <div key={note.version} className="note">
+                  <div>
+                    <strong>v{note.version}</strong>
+                    <span>{note.date}</span>
+                  </div>
+                  <ul>
+                    {note.notes.map((line) => (
+                      <li key={line}>
+                        <Check size={16} aria-hidden="true" />
+                        {line}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <Rail id="related-title" title="You may also like" moreHref="/apps" moreLabel="All apps">
+        {related.map((item) => (
+          <AppCard key={item.id} app={item} />
+        ))}
+      </Rail>
+
+      <p className="container" style={{ marginTop: -24, marginBottom: 24 }}>
+        <Link href="/apps" className="link-more">
+          ← Back to all apps
+        </Link>
+      </p>
     </article>
   );
 }

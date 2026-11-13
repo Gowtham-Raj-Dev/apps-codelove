@@ -1,45 +1,49 @@
-// Global site configuration. Edit this file to change branding, links and SEO text.
+// Global site configuration: branding, links and SEO text.
 
 export const site = {
-  name: "Codelove Apps",
-  shortName: "Codelove",
+  name: "CodeLove Apps",
+  shortName: "CodeLove",
   url: "https://apps.codelove.in",
   developer: "Gowtham",
-  developerTitle: "Developer & Creator",
+  developerTitle: "Developer, CodeLove",
   parentSite: "codelove.in",
   parentSiteUrl: "https://codelove.in",
-  tagline: "Discover useful mobile apps crafted by Gowtham.",
-  title: "Codelove Apps — Useful Mobile Apps by Gowtham",
+  tagline: "Free Android games and tools by CodeLove.",
+  title: "CodeLove Apps — Free Android Games and Tools (APK)",
   description:
-    "Discover useful and thoughtfully crafted mobile apps by Gowtham. Explore productivity, utility, media and creative apps from Codelove.",
+    "Download free Android apps by CodeLove: 3D games that play full screen in landscape, a video cutter, video to GIF, Instagram downloader, link in bio and the JavaPlay Java game emulator.",
   year: 2026,
-  // Where the "Contact" link in the header points (a mailto: link also works).
   contactUrl: "https://codelove.in",
-  // Social links. Leave a URL empty ("") to hide that icon in the footer.
   social: {
     website: "https://codelove.in",
     github: "",
   },
 };
 
-/*
-  Header navigation.
-  - menu: "categories" renders a dropdown listing every category from categories.js
-  - external: true opens the link in a new tab
-*/
+// Header navigation
 export const navLinks = [
   { label: "Home", href: "/" },
-  { label: "Apps", href: "/apps" },
-  { label: "Categories", href: "/apps", menu: "categories" },
-  { label: "Latest", href: "/#latest" },
+  { label: "Games", href: "/apps?category=Games" },
+  { label: "All apps", href: "/apps" },
   { label: "About", href: "/about" },
-  { label: "Contact", href: "https://codelove.in", external: true },
 ];
 
 export const footerLinks = [
-  { label: "Home", href: "/" },
-  { label: "Apps", href: "/apps" },
+  { label: "All apps", href: "/apps" },
   { label: "About", href: "/about" },
   { label: "Privacy", href: "/privacy" },
   { label: "Terms", href: "/terms" },
+];
+
+// The other CodeLove sites (same labels on every site in the network)
+export const networkLinks = [
+  { label: "CodeLove", href: "https://codelove.in" },
+  { label: "Free 3D Models", href: "https://models.codelove.in" },
+  { label: "Free 3D Games", href: "https://games.codelove.in" },
+  { label: "Insta Downloader", href: "https://downloader.codelove.in" },
+  { label: "Link in Bio", href: "https://linkinbio.codelove.in" },
+  { label: "Video to GIF", href: "https://videotogif.codelove.in" },
+  { label: "Video to Images", href: "https://videotoimages.codelove.in" },
+  { label: "Free YouTube Automation", href: "https://utubeflow.codelove.in" },
+  { label: "Free Java Games", href: "https://javaplay.codelove.in" },
 ];

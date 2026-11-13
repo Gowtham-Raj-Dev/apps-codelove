@@ -11,16 +11,20 @@
   Run it again whenever you add an app, change a version, accent or icon.
 */
 
-import { readFile, writeFile, mkdir } from "node:fs/promises";
+import { writeFile, mkdir, access, rm } from "node:fs/promises";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import path from "node:path";
+import { createRequire } from "node:module";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, "..");          // src/android-apps
 const website = path.resolve(root, "../..");    // app-website
 
-const { apps } = await import(pathToFileURL(path.join(website, "src/data/apps.js")).href);
+const { apps, hub } = await import(pathToFileURL(path.join(website, "src/data/apps.js")).href);
 const { site } = await import(pathToFileURL(path.join(website, "src/data/site.js")).href);
+const { admob } = await import(pathToFileURL(path.join(website, "src/data/ads.js")).href);
+// sharp comes with Next.js; resolve it from the website project
+const sharp = createRequire(path.join(website, "package.json"))("sharp");
 
 // Gradle flavor names must be plain identifiers (no "-")
 const flavorName = (id) => id.replace(/[^a-z0-9]/gi, "").toLowerCase();
@@ -99,9 +103,18 @@ function lucideFile(name) {
 }
 
 async function loadLucide(name) {
-  const file = path.join(website, "node_modules/lucide-react/dist/esm/icons", `${lucideFile(name)}.mjs`);
-  const mod = await import(pathToFileURL(file).href);
-  return mod.__iconData.node;
+  const dir = path.join(website, "node_modules/lucide-react/dist/esm/icons");
+  const kebab = lucideFile(name);
+  // "Gamepad2" is gamepad-2.mjs: also try with a dash before the digits
+  for (const candidate of [kebab, kebab.replace(/([a-z])(\d)/g, "$1-$2")]) {
+    try {
+      const mod = await import(pathToFileURL(path.join(dir, `${candidate}.mjs`)).href);
+      return mod.__iconData.node;
+    } catch {
+      // try the next spelling
+    }
+  }
+  throw new Error(`Lucide icon "${name}" not found in ${dir}`);
 }
 
 const header = `<?xml version="1.0" encoding="utf-8"?>
@@ -140,14 +153,96 @@ ${paths}
 `;
 }
 
+// ---------------------------------------------------------------- ads
+
+// Which ad formats an app uses (see src/data/ads.js); games never get a banner.
+function adsFor(app) {
+  const ids = admob.apps[app.id];
+  if (!ids) return { allowed: false };
+  const formats = Object.keys(ids).filter((k) => k !== "appId").map((k) => k.toLowerCase());
+  return {
+    allowed: true,
+    appId: ids.appId || "",
+    banner: ids.banner || "",
+    interstitial: ids.interstitial || "",
+    appOpen: ids.appOpen || "",
+    formats: formats.join(","),
+  };
+}
+
+// ---------------------------------------------------------------- original icons
+
+const exists = (file) => access(file).then(() => true, () => false);
+
+/*
+  Launcher + splash icon from the app's original 512 px icon (public/icons/<id>.png, made by
+  scripts/sync-assets.mjs). Adaptive icons show only the middle ~2/3 of the 108 dp layer, so:
+   - games (full-bleed cover art) fill the whole layer;
+   - tool icons (a rounded square with a glyph) lose their own corners and are centred at 3/4
+     size, with the icon's edge colours stretched to the layer edges.
+*/
+async function writeOriginalIcon(flavor, file, fullBleed) {
+  const res = path.join(root, "app/src", flavor, "res");
+  await mkdir(path.join(res, "drawable-nodpi"), { recursive: true });
+  await mkdir(path.join(res, "drawable"), { recursive: true });
+  await mkdir(path.join(res, "mipmap-anydpi-v26"), { recursive: true });
+
+  const SIZE = 432; // 108 dp at xxxhdpi
+  let image;
+  if (fullBleed) {
+    image = sharp(file).resize(SIZE, SIZE, { fit: "cover" });
+  } else {
+    const inset = Math.round(512 * 0.08);
+    const inner = await sharp(file).extract({ left: inset, top: inset, width: 512 - 2 * inset, height: 512 - 2 * inset }).toBuffer();
+    const body = Math.round(SIZE * 0.75);
+    const pad = (SIZE - body) / 2;
+    image = sharp(await sharp(inner).resize(body, body).toBuffer()).extend({ top: pad, bottom: pad, left: pad, right: pad, extendWith: "copy" });
+  }
+  await image.flatten({ background: "#0e0f13" }).png().toFile(path.join(res, "drawable-nodpi/app_art.png"));
+
+  await writeFile(path.join(res, "drawable/app_art_layer.xml"), `${header}
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android" android:src="@drawable/app_art" android:gravity="fill" android:filter="true" />
+`);
+  await writeFile(path.join(res, "drawable/app_art_empty.xml"), `${header}
+<shape xmlns:android="http://schemas.android.com/apk/res/android"><solid android:color="@android:color/transparent" /></shape>
+`);
+  const adaptive = `${header}
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@drawable/app_art_layer" />
+    <foreground android:drawable="@drawable/app_art_empty" />
+</adaptive-icon>
+`;
+  await writeFile(path.join(res, "mipmap-anydpi-v26/ic_launcher.xml"), adaptive);
+  await writeFile(path.join(res, "mipmap-anydpi-v26/ic_launcher_round.xml"), adaptive);
+  // Splash: the art in a rounded square, inset so the splash's circular mask keeps it whole
+  await writeFile(path.join(res, "drawable/ic_splash.xml"), `${header}
+<inset xmlns:android="http://schemas.android.com/apk/res/android" android:inset="18%">
+    <bitmap android:src="@drawable/app_art" android:gravity="fill" android:filter="true" />
+</inset>
+`);
+  // The generated Lucide foreground is not used any more
+  await rm(path.join(res, "drawable/ic_launcher_foreground.xml"), { force: true });
+}
+
 // ---------------------------------------------------------------- run
 
+const ORIENTATIONS = { auto: "unspecified", portrait: "portrait", landscape: "sensorLandscape" };
+
 const entries = [];
-for (const app of apps) {
+// The main CodeLove app (all games + tools inside) is built from the same shell, in hub mode
+for (const app of [hub, ...apps]) {
+  const cfg = app.android || {};
+  // Apps with their own native project/APK (JavaPlay, Kingdom Clash, Patti Veedu) get no shell
+  if (cfg.build === false) {
+    console.log(`- ${flavorName(app.id).padEnd(16)} ${app.name.padEnd(17)} skipped (own APK: ${app.apkUrl})`);
+    continue;
+  }
   const flavor = flavorName(app.id);
   const [accent, accentLight] = gradientStops(app.icon?.gradient, app.accent || "#7c6cff");
-  const webPath = app.webAppUrl || `/${app.id}/app`;
-  const url = new URL(webPath, site.url);
+  const url = new URL(cfg.url || app.webAppUrl || `/${app.id}/app`, site.url);
+  const orientation = ORIENTATIONS[cfg.orientation || "auto"];
+  if (!orientation) throw new Error(`${app.id}: android.orientation must be auto | portrait | landscape`);
+  if (cfg.embedCss && /["\\\n]/.test(cfg.embedCss)) throw new Error(`${app.id}: android.embedCss may not contain quotes, backslashes or new lines`);
 
   entries.push({
     flavor,
@@ -160,16 +255,29 @@ for (const app of apps) {
     deepLinkPath: url.pathname,
     accent: accent.toUpperCase(),
     accentLight: accentLight.toUpperCase(),
+    orientation,
+    immersive: !!cfg.immersive,
+    hub: !!cfg.hub,
+    dark: !!cfg.dark,
+    uaToken: cfg.uaToken || "",
+    embedCss: cfg.embedCss || "",
+    hosts: (cfg.hosts || []).join(","),
+    shareTarget: !!cfg.shareTarget,
+    shareParam: cfg.shareParam || "",
+    ads: adsFor(app),
   });
 
-  if (app.icon?.name) {
+  const art = path.join(website, "public/icons", `${app.id}.png`);
+  if (await exists(art)) {
+    await writeOriginalIcon(flavor, art, app.category === "Games" || !!cfg.hub);
+  } else if (app.icon?.name) {
     const dir = path.join(root, "app/src", flavor, "res/drawable");
     await mkdir(dir, { recursive: true });
     const paths = lucideToPaths(await loadLucide(app.icon.name));
     await writeFile(path.join(dir, "ic_launcher_foreground.xml"), launcherForeground(paths));
     await writeFile(path.join(dir, "ic_splash.xml"), splashIcon(paths));
   }
-  console.log(`✓ ${flavor.padEnd(12)} ${app.name.padEnd(12)} v${app.version.padEnd(7)} ${url.href}`);
+  console.log(`✓ ${flavor.padEnd(16)} ${app.name.padEnd(17)} v${app.version.padEnd(7)} ${cfg.orientation === "landscape" ? "landscape " : ""}${url.href}`);
 }
 
 await writeFile(path.join(root, "app/apps.json"), JSON.stringify(entries, null, 2) + "\n");

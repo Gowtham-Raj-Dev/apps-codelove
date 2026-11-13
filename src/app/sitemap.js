@@ -19,7 +19,8 @@ export default function sitemap() {
     priority: 0.8,
   }));
   const webApps = apps
-    .filter((app) => app.webAppUrl)
+    // Only web apps hosted on this site; the others belong to their own site's sitemap
+    .filter((app) => app.webAppUrl && app.webAppUrl.startsWith("/"))
     .map((app) => ({
       url: `${site.url}${app.webAppUrl}`,
       lastModified: now,

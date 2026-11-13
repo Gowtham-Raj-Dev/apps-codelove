@@ -1,7 +1,6 @@
 // Central registry of Lucide icons that can be referenced by name from data files.
 // Add an icon here if you want to use it in src/data/*.js.
 import {
-  ClipboardList,
   Wrench,
   Film,
   NotebookPen,
@@ -22,10 +21,27 @@ import {
   Palette,
   Sparkles,
   Smartphone,
+  Download,
+  Link,
+  Scissors,
+  Clapperboard,
+  Gamepad2,
+  CarFront,
+  Cloud,
+  Sword,
+  Ship,
+  Rocket,
+  Target,
+  Flag,
+  Hexagon,
+  ChefHat,
+  Music,
+  ShoppingCart,
+  Castle,
+  Ghost,
 } from "lucide-react";
 
 export const iconMap = {
-  ClipboardList,
   Wrench,
   Film,
   NotebookPen,
@@ -46,6 +62,24 @@ export const iconMap = {
   Palette,
   Sparkles,
   Smartphone,
+  Download,
+  Link,
+  Scissors,
+  Clapperboard,
+  Gamepad2,
+  CarFront,
+  Cloud,
+  Sword,
+  Ship,
+  Rocket,
+  Target,
+  Flag,
+  Hexagon,
+  ChefHat,
+  Music,
+  ShoppingCart,
+  Castle,
+  Ghost,
 };
 
 /* Renders a Lucide icon by name, e.g. <Icon name="Zap" size={20} />. Unknown names fall back to a phone icon. */

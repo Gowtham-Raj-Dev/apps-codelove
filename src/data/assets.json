@@ -1,0 +1,102 @@
+{
+  "insta-downloader": {
+    "icon": "/icons/insta-downloader.png",
+    "cover": "/covers/insta-downloader.webp"
+  },
+  "link-in-bio": {
+    "icon": "/icons/link-in-bio.png",
+    "cover": "/covers/link-in-bio.webp"
+  },
+  "videocut": {
+    "icon": "/icons/videocut.png",
+    "cover": "/covers/videocut.webp"
+  },
+  "video-to-gif": {
+    "icon": "/icons/video-to-gif.png",
+    "cover": "/covers/video-to-gif.webp"
+  },
+  "javaplay": {
+    "icon": "/icons/javaplay.png",
+    "cover": "/covers/javaplay.webp"
+  },
+  "turbo-karts": {
+    "icon": "/icons/turbo-karts.png",
+    "cover": "/covers/turbo-karts.webp",
+    "wide": "/covers/turbo-karts-wide.webp",
+    "tall": "/covers/turbo-karts-tall.webp"
+  },
+  "skate-rush": {
+    "icon": "/icons/skate-rush.png",
+    "cover": "/covers/skate-rush.webp",
+    "wide": "/covers/skate-rush-wide.webp",
+    "tall": "/covers/skate-rush-tall.webp"
+  },
+  "sky-hop": {
+    "icon": "/icons/sky-hop.png",
+    "cover": "/covers/sky-hop.webp",
+    "wide": "/covers/sky-hop-wide.webp",
+    "tall": "/covers/sky-hop-tall.webp"
+  },
+  "crypt-knight": {
+    "icon": "/icons/crypt-knight.png",
+    "cover": "/covers/crypt-knight.webp",
+    "wide": "/covers/crypt-knight-wide.webp",
+    "tall": "/covers/crypt-knight-tall.webp"
+  },
+  "cannon-cove": {
+    "icon": "/icons/cannon-cove.png",
+    "cover": "/covers/cannon-cove.webp",
+    "wide": "/covers/cannon-cove-wide.webp",
+    "tall": "/covers/cannon-cove-tall.webp"
+  },
+  "saucer-siege": {
+    "icon": "/icons/saucer-siege.png",
+    "cover": "/covers/saucer-siege.webp",
+    "wide": "/covers/saucer-siege-wide.webp",
+    "tall": "/covers/saucer-siege-tall.webp"
+  },
+  "siege-smash": {
+    "icon": "/icons/siege-smash.png",
+    "cover": "/covers/siege-smash.webp",
+    "wide": "/covers/siege-smash-wide.webp",
+    "tall": "/covers/siege-smash-tall.webp"
+  },
+  "putt-paradise": {
+    "icon": "/icons/putt-paradise.png",
+    "cover": "/covers/putt-paradise.webp",
+    "wide": "/covers/putt-paradise-wide.webp",
+    "tall": "/covers/putt-paradise-tall.webp"
+  },
+  "hex-haven": {
+    "icon": "/icons/hex-haven.png",
+    "cover": "/covers/hex-haven.webp",
+    "wide": "/covers/hex-haven-wide.webp",
+    "tall": "/covers/hex-haven-tall.webp"
+  },
+  "order-up": {
+    "icon": "/icons/order-up.png",
+    "cover": "/covers/order-up.webp",
+    "wide": "/covers/order-up-wide.webp",
+    "tall": "/covers/order-up-tall.webp"
+  },
+  "beat-street": {
+    "icon": "/icons/beat-street.png",
+    "cover": "/covers/beat-street.webp",
+    "wide": "/covers/beat-street-wide.webp",
+    "tall": "/covers/beat-street-tall.webp"
+  },
+  "aisle-zero": {
+    "icon": "/icons/aisle-zero.png",
+    "cover": "/covers/aisle-zero.webp"
+  },
+  "kingdom-clash": {
+    "icon": "/icons/kingdom-clash.png",
+    "cover": "/covers/kingdom-clash.webp",
+    "wide": "/covers/kingdom-clash-wide.webp",
+    "tall": "/covers/kingdom-clash-tall.webp"
+  },
+  "patti-veedu": {
+    "icon": "/icons/patti-veedu.png",
+    "cover": "/covers/patti-veedu.webp"
+  }
+}

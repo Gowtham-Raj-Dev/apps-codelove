@@ -22,6 +22,11 @@ $ErrorActionPreference = "Continue"
 $root = $PSScriptRoot
 Set-Location $root
 
+# No Android Studio on this PC: fall back to the JDK + SDK in java-game-emu\toolchain
+$toolchain = Join-Path $root "..\..\..\java-game-emu\toolchain"
+if (-not $env:JAVA_HOME -and (Test-Path "$toolchain\jdk-21.0.12.1+1")) { $env:JAVA_HOME = (Resolve-Path "$toolchain\jdk-21.0.12.1+1").Path }
+if (-not $env:ANDROID_HOME -and (Test-Path "$toolchain\sdk")) { $env:ANDROID_HOME = (Resolve-Path "$toolchain\sdk").Path }
+
 Write-Host "Syncing flavors from src/data/apps.js ..." -ForegroundColor DarkGray
 node --no-warnings tools/sync-apps.mjs
 if ($LASTEXITCODE -ne 0) { throw "sync-apps failed" }
@@ -46,9 +51,20 @@ else {
 $buildType = if ($Debug) { "Debug" } else { "Release" }
 [string[]]$tasks = @($targets | ForEach-Object { "assemble$((Get-Culture).TextInfo.ToTitleCase($_.flavor))$buildType" })
 
-Write-Host "Building: $($tasks -join ', ')" -ForegroundColor Cyan
-& .\gradlew.bat $tasks -q
-if ($LASTEXITCODE -ne 0) { throw "Gradle build failed" }
+# One app at a time: building all release flavors in one Gradle run needs more memory than this PC has.
+# Each app is retried a few times, because the internet here drops DNS now and then (and Gradle's daemon can die).
+foreach ($task in $tasks) {
+    Write-Host "Building $task ..." -ForegroundColor Cyan
+    for ($try = 1; $try -le 3; $try++) {
+        $log = & .\gradlew.bat $task -q --max-workers=2 2>&1
+        if ($LASTEXITCODE -eq 0) { break }
+        Write-Host "  failed (try $try), retrying..." -ForegroundColor Yellow
+    }
+    if ($LASTEXITCODE -ne 0) {
+        $log | Where-Object { $_ -notmatch '^\s+at ' } | Select-Object -Last 40 | ForEach-Object { Write-Host $_ }
+        throw "Gradle build failed: $task"
+    }
+}
 
 New-Item -ItemType Directory -Force dist | Out-Null
 foreach ($app in $targets) {
@@ -64,4 +80,11 @@ foreach ($app in $targets) {
         Copy-Item $src $pub -Force
         Write-Host "  published → public/downloads/$($app.id).apk" -ForegroundColor Green
     }
+}
+
+# Tell the website which APKs exist (removes "Coming soon", sets the real size)
+if ($Publish -and -not $Debug) {
+    Push-Location (Join-Path $root "..\..")
+    node scripts/sync-downloads.mjs
+    Pop-Location
 }

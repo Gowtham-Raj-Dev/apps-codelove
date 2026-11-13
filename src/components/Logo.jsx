@@ -1,35 +1,14 @@
 import Link from "next/link";
 import { site } from "@/data/site";
 
-export function LogoMark({ size = 30 }) {
+/* CodeLove Apps mark: a bold "C" holding a play button (apps + games). Same drawing as src/app/icon.svg. */
+export function LogoMark({ size = 32 }) {
   return (
-    <svg
-      className="logo-mark"
-      width={size}
-      height={size}
-      viewBox="0 0 32 32"
-      fill="none"
-      aria-hidden="true"
-    >
-      <defs>
-        <linearGradient id="logo-grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#7c6cff" />
-          <stop offset="0.55" stopColor="#c66bff" />
-          <stop offset="1" stopColor="#ff6b9a" />
-        </linearGradient>
-        <linearGradient id="logo-gloss" x1="0" y1="0" x2="0" y2="32" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#fff" stopOpacity="0.35" />
-          <stop offset="0.5" stopColor="#fff" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <rect width="32" height="32" rx="9" fill="url(#logo-grad)" />
-      <rect width="32" height="32" rx="9" fill="url(#logo-gloss)" />
-      <path
-        d="M20.5 11.5c-1.1-1.2-2.7-1.8-4.4-1.8-3.6 0-6.4 2.8-6.4 6.3s2.8 6.3 6.4 6.3c1.7 0 3.3-.6 4.4-1.8"
-        stroke="#fff"
-        strokeWidth="2.6"
-        strokeLinecap="round"
-      />
+    <svg className="logo-mark" width={size} height={size} viewBox="0 0 64 64" aria-hidden="true">
+      <rect width="64" height="64" rx="15" fill="#16181f" />
+      <rect x="0.75" y="0.75" width="62.5" height="62.5" rx="14.25" fill="none" stroke="#fff" strokeOpacity="0.12" strokeWidth="1.5" />
+      <path d="M44.5 21.2A16 16 0 1 0 44.5 42.8" fill="none" stroke="#fff" strokeWidth="7.5" strokeLinecap="round" />
+      <path d="M28.5 24.6v14.8a1.6 1.6 0 0 0 2.4 1.4l12-7.4a1.6 1.6 0 0 0 0-2.8l-12-7.4a1.6 1.6 0 0 0-2.4 1.4z" fill="#3b82f6" />
     </svg>
   );
 }
@@ -39,7 +18,7 @@ export default function Logo() {
     <Link href="/" className="logo" aria-label={`${site.name} home`}>
       <LogoMark />
       <span className="logo-text">
-        Codelove <span>Apps</span>
+        CodeLove <span>Apps</span>
       </span>
     </Link>
   );

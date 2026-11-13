@@ -4,7 +4,7 @@ import { site } from "@/data/site";
 export const dynamic = "force-static";
 
 // Social preview image, generated at build time (1200×630).
-export const alt = `${site.name} — Useful mobile apps by ${site.developer}`;
+export const alt = `${site.name} — free Android games and tools by ${site.developer}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -19,54 +19,29 @@ export default function OpenGraphImage() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: 72,
-          background: "linear-gradient(135deg, #ffffff 0%, #f3f4f8 100%)",
+          background: "#0e0f13",
           fontFamily: "sans-serif",
-          color: "#0c0e14",
-          position: "relative",
+          color: "#f4f5fa",
         }}
       >
-        <div
-          style={{
-            position: "absolute",
-            top: -160,
-            right: -120,
-            width: 520,
-            height: 520,
-            borderRadius: 520,
-            background: "radial-gradient(circle, rgba(124,108,255,0.28), rgba(255,107,154,0.10) 60%, transparent 75%)",
-          }}
-        />
-        <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-          <div
-            style={{
-              width: 64,
-              height: 64,
-              borderRadius: 18,
-              background: "linear-gradient(135deg, #7c6cff, #c66bff 55%, #ff6b9a)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#fff",
-              fontSize: 40,
-              fontWeight: 800,
-            }}
-          >
-            C
-          </div>
-          <div style={{ fontSize: 34, fontWeight: 800, letterSpacing: -1 }}>{site.name}</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+          <svg width="64" height="64" viewBox="0 0 64 64">
+            <rect width="64" height="64" rx="15" fill="#16181f" stroke="#2a2c35" strokeWidth="1.5" />
+            <path d="M44.5 21.2A16 16 0 1 0 44.5 42.8" fill="none" stroke="#fff" strokeWidth="7.5" strokeLinecap="round" />
+            <path d="M28.5 24.6v14.8a1.6 1.6 0 0 0 2.4 1.4l12-7.4a1.6 1.6 0 0 0 0-2.8l-12-7.4a1.6 1.6 0 0 0-2.4 1.4z" fill="#3b82f6" />
+          </svg>
+          <div style={{ fontSize: 32, fontWeight: 700 }}>{site.name}</div>
         </div>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-          <div style={{ fontSize: 76, fontWeight: 800, letterSpacing: -3, lineHeight: 1.05, display: "flex", flexDirection: "column" }}>
-            <span>Apps made to be useful.</span>
-            <span style={{ color: "#4b5063" }}>Designed to feel effortless.</span>
+        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          <div style={{ fontSize: 74, fontWeight: 800, letterSpacing: -2, lineHeight: 1.05, display: "flex", flexDirection: "column" }}>
+            <span>Free Android games</span>
+            <span>and tools.</span>
           </div>
-          <div style={{ fontSize: 28, color: "#4b5063", display: "flex" }}>
-            {`Useful Android apps by ${site.developer} · ${site.url.replace("https://", "")}`}
-          </div>
+          <div style={{ fontSize: 28, color: "#a9adba" }}>3D games · Video cutter · Video to GIF · Insta Downloader · JavaPlay</div>
         </div>
+        <div style={{ display: "flex", fontSize: 24, color: "#767a87" }}>{`apps.codelove.in · by ${site.developer}`}</div>
       </div>
     ),
-    { ...size }
+    size,
   );
 }
