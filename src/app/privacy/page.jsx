@@ -4,7 +4,7 @@ import { site } from "@/data/site";
 export const metadata = {
   title: "Privacy policy",
   description: `How ${site.name} and the CodeLove Android apps handle your data, including ads served by Google AdMob.`,
-  alternates: { canonical: "/privacy" },
+  alternates: { canonical: "/privacy/" },
 };
 
 export default function PrivacyPage() {

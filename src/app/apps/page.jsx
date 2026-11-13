@@ -7,7 +7,7 @@ import { site } from "@/data/site";
 export const metadata = {
   title: "All apps and games",
   description: `Browse every free Android app and game by ${site.developer} at CodeLove. Search by name, filter by category and download the APK.`,
-  alternates: { canonical: "/apps" },
+  alternates: { canonical: "/apps/" },
   openGraph: {
     title: `All apps and games — ${site.name}`,
     description: `Every free Android app and game by ${site.developer} at CodeLove.`,

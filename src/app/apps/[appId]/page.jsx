@@ -28,7 +28,7 @@ export async function generateMetadata({ params }) {
   return {
     title: `${app.name} — ${app.tagline}`,
     description,
-    alternates: { canonical: `/apps/${app.id}` },
+    alternates: { canonical: `/apps/${app.id}/` },
     openGraph: { title: `${app.name} — ${app.tagline}`, description, url: `${site.url}/apps/${app.id}`, type: "website", images: image },
     twitter: { card: "summary_large_image", title: `${app.name} — ${app.tagline}`, description, images: image?.map((i) => i.url) },
   };

@@ -7,7 +7,7 @@ import { site, networkLinks } from "@/data/site";
 export const metadata = {
   title: "About",
   description: `CodeLove Apps is where ${site.developer} publishes free Android games and tools as direct APK downloads.`,
-  alternates: { canonical: "/about" },
+  alternates: { canonical: "/about/" },
   openGraph: {
     title: `About — ${site.name}`,
     description: `Free Android games and tools by ${site.developer} at CodeLove.`,

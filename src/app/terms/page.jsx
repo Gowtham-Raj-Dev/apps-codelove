@@ -4,7 +4,7 @@ import { site } from "@/data/site";
 export const metadata = {
   title: "Terms",
   description: `Terms of use for ${site.name} and the Android apps distributed through it.`,
-  alternates: { canonical: "/terms" },
+  alternates: { canonical: "/terms/" },
 };
 
 export default function TermsPage() {
