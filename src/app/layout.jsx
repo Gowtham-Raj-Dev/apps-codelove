@@ -55,6 +55,8 @@ export default function RootLayout({ children }) {
       <head>
         {/* Inside the CodeLove app (apps-hub.js): swap APK downloads for Play / Open before the first paint */}
         <script dangerouslySetInnerHTML={{ __html: HUB_SCRIPT }} />
+        {/* CodeLove Analytics (admin.codelove.in) */}
+        <script defer src="https://admin.codelove.in/t.js" />
       </head>
       <body className={inter.variable}>
         <a href="#main" className="skip-link">
