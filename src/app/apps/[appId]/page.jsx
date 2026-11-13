@@ -5,6 +5,7 @@ import Breadcrumb from "@/components/Breadcrumb";
 import AppIcon from "@/components/AppIcon";
 import AppCard from "@/components/AppCard";
 import DownloadButton from "@/components/DownloadButton";
+import DownloadCount from "@/components/DownloadCount";
 import ShareButton from "@/components/ShareButton";
 import Rail from "@/components/Rail";
 import { Icon } from "@/components/icons";
@@ -105,6 +106,7 @@ export default async function AppDetailPage({ params }) {
 
               <div className="detail-chips">
                 {app.comingSoon ? <span className="chip">Coming soon</span> : <span className="chip chip-live">Available</span>}
+                <DownloadCount app={app} className="chip" />
                 <span className="chip">Free</span>
                 <span className="chip">No account</span>
                 {isGame && <span className="chip">Landscape · full screen</span>}

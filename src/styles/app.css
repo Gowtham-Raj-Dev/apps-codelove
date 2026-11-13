@@ -605,6 +605,18 @@ main {
   font-size: 0.78rem;
   color: var(--text-3);
 }
+.dl-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-variant-numeric: tabular-nums;
+}
+.card-dl {
+  margin-top: 3px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-2);
+}
 .card-text {
   display: -webkit-box;
   -webkit-line-clamp: 2;

@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { site } from "@/data/site";
+import { assetUrl } from "@/lib/asset";
 
 import "@/styles/app.css";
 
@@ -57,6 +58,8 @@ export default function RootLayout({ children }) {
         <script dangerouslySetInnerHTML={{ __html: HUB_SCRIPT }} />
         {/* CodeLove Analytics (admin.codelove.in) */}
         <script defer src="https://admin.codelove.in/t.js" />
+        {/* APK download counts (public/dl.js → Firestore dl/apps) */}
+        <script defer src={assetUrl("/dl.js")} />
       </head>
       <body className={inter.variable}>
         <a href="#main" className="skip-link">

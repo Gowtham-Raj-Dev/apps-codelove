@@ -1,6 +1,7 @@
 import Link from "next/link";
 import AppIcon from "./AppIcon";
 import DownloadButton from "./DownloadButton";
+import DownloadCount from "./DownloadCount";
 import { assetUrl } from "@/lib/asset";
 
 /* Cover card: the app's original art on top, icon + name + download below. The whole card links to the app page. */
@@ -31,6 +32,7 @@ export default function AppCard({ app, eager = false }) {
             <span className="card-sub">
               v{app.version} · {app.size}
             </span>
+            <DownloadCount app={app} className="card-dl" />
           </div>
         </div>
         <p className="card-text">{app.description}</p>

@@ -37,6 +37,7 @@ export default function DownloadButton({
       <a
         href={assetUrl(app.apkUrl)}
         download={fileName}
+        data-dl-app={app.id}
         className={`${classes} hub-hide`}
         aria-label={`${label} ${app.name} (${app.platform} APK, ${app.size})`}
       >
