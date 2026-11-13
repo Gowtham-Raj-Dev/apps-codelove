@@ -11,8 +11,8 @@ export const downloads = {
     "built": "2026-11-12"
   },
   "codelove": {
-    "bytes": 2864373,
-    "sha256": "9bc3b9207c9ec3a2b6b0bb5873777dc4922a706180c5a0c5aaed2f57a11fd01f",
+    "bytes": 2861929,
+    "sha256": "ec4fb5a4506eab4ace50b469e309b4e943fe9cbc037ec1c3f5ddee761652402d",
     "built": "2026-11-13"
   },
   "crypt-knight": {

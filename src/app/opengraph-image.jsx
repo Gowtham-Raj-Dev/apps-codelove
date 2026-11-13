@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { site } from "@/data/site";
+import { C_PATH, HEART_PATH } from "@/components/Logo";
 
 export const dynamic = "force-static";
 
@@ -25,10 +26,10 @@ export default function OpenGraphImage() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-          <svg width="64" height="64" viewBox="0 0 64 64">
-            <rect width="64" height="64" rx="15" fill="#16181f" stroke="#2a2c35" strokeWidth="1.5" />
-            <path d="M44.5 21.2A16 16 0 1 0 44.5 42.8" fill="none" stroke="#fff" strokeWidth="7.5" strokeLinecap="round" />
-            <path d="M28.5 24.6v14.8a1.6 1.6 0 0 0 2.4 1.4l12-7.4a1.6 1.6 0 0 0 0-2.8l-12-7.4a1.6 1.6 0 0 0-2.4 1.4z" fill="#3b82f6" />
+          <svg width="64" height="64" viewBox="-54.5 -43.5 410 410">
+            <rect x="-54.5" y="-43.5" width="410" height="410" rx="90" fill="#000" />
+            <path d={C_PATH} fill="#fff" />
+            <path d={HEART_PATH} fill="#2158FE" />
           </svg>
           <div style={{ fontSize: 32, fontWeight: 700 }}>{site.name}</div>
         </div>
