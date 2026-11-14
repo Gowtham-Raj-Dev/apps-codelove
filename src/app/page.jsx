@@ -4,9 +4,7 @@ import Spotlight from "@/components/Spotlight";
 import Rail from "@/components/Rail";
 import AppCard from "@/components/AppCard";
 import ToolCard from "@/components/ToolCard";
-import DownloadButton from "@/components/DownloadButton";
-import { LogoMark } from "@/components/Logo";
-import { apps, getAppById, hub } from "@/data/apps";
+import { apps, getAppById } from "@/data/apps";
 
 // Games shown in the big carousel at the top, in order
 const SPOTLIGHT = ["kingdom-clash", "patti-veedu", "turbo-karts", "crypt-knight", "cannon-cove", "skate-rush"];
@@ -44,28 +42,6 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-
-          {/* The main CodeLove app: hidden inside the app itself */}
-          {!hub.comingSoon && (
-            <div className="banner hub-banner hub-hide">
-              <div className="hub-banner-id">
-                <LogoMark size={72} />
-                <div>
-                  <h2>Get the CodeLove app: every game and tool in one</h2>
-                  <p>
-                    One download, {games.length} games and {tools.length} tools inside. Tap Play and the game opens right in the app, full
-                    screen in landscape. No need to install each app.
-                  </p>
-                </div>
-              </div>
-              <div className="hub-banner-actions">
-                <DownloadButton app={hub} label="Download CodeLove app" size="lg" />
-                <small>
-                  v{hub.version} · {hub.size} · {hub.androidVersion}
-                </small>
-              </div>
-            </div>
-          )}
         </div>
       </section>
 

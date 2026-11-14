@@ -976,45 +976,6 @@ main {
   color: var(--text-2);
 }
 
-/* The main CodeLove app (all games + tools in one APK) */
-.hub-banner {
-  margin-top: clamp(28px, 4vw, 44px);
-  border-color: color-mix(in srgb, #3b82f6 45%, var(--line-2));
-  background:
-    radial-gradient(120% 140% at 0% 0%, color-mix(in srgb, #3b82f6 22%, transparent), transparent 60%),
-    var(--surface);
-}
-.hub-banner-id {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  max-width: 720px;
-}
-.hub-banner-id svg {
-  flex: none;
-}
-.hub-banner h2 {
-  font-size: clamp(1.25rem, 2.6vw, 1.7rem);
-}
-.hub-banner-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px 16px;
-}
-.hub-banner-actions small {
-  color: var(--text-3);
-}
-@media (max-width: 560px) {
-  .hub-banner-id {
-    align-items: flex-start;
-  }
-  .hub-banner-id svg {
-    width: 52px;
-    height: 52px;
-  }
-}
-
 /* Inside the CodeLove app (html.in-hub, set in layout.jsx): Play / Open instead of APK downloads */
 .hub-only {
   display: none !important;
@@ -1697,18 +1658,413 @@ html.in-hub .hub-hide {
   .detail-facts div:nth-child(n + 3) {
     border-top: 1px solid var(--line);
   }
-  .detail-actions .btn {
-    flex: 1 1 100%;
-  }
   .note {
     grid-template-columns: 1fr;
     gap: 8px;
   }
-  .footer-grid {
-    grid-template-columns: 1fr;
-  }
   .intro-stats {
     width: 100%;
     justify-content: space-between;
+  }
+}
+
+/* Phones: a compact store. Two cards a row, tools and steps as short rows, nothing wider than the screen. */
+@media (max-width: 600px) {
+  :root {
+    --header-h: 58px;
+  }
+  .section {
+    padding-block: 30px;
+  }
+  .section-head {
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .section-head > div:first-child {
+    flex: 1;
+    min-width: 0;
+  }
+  .section-head p {
+    margin-top: 4px;
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+  .rail-nav {
+    flex: none;
+    padding-top: 4px;
+  }
+  h2 {
+    font-size: 1.35rem;
+  }
+
+  /* Header */
+  .logo {
+    font-size: 1rem;
+  }
+  .header-burger {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Home: spotlight + intro */
+  .spotlight {
+    padding-top: 14px;
+  }
+  .spot-stage {
+    aspect-ratio: 4 / 4.6;
+    border-radius: var(--r-lg);
+  }
+  .spot-info {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+  }
+  .spot-chips {
+    margin-bottom: 10px;
+  }
+  .spot-title {
+    gap: 12px;
+  }
+  .spot-title .app-icon {
+    --size: 52px !important;
+  }
+  .spot-title h2 {
+    font-size: 1.55rem;
+  }
+  .spot-info p {
+    margin-top: 10px;
+    -webkit-line-clamp: 2;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  .spot-actions {
+    margin-top: 14px;
+  }
+  .spot-actions .btn {
+    --btn-h: 46px;
+    padding-inline: 12px;
+  }
+  .intro {
+    margin-top: 22px;
+    gap: 16px;
+  }
+  .intro h1 {
+    font-size: 1.4rem;
+    line-height: 1.2;
+  }
+  .intro-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .intro-stats div {
+    padding: 12px 10px;
+    border-radius: var(--r);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    text-align: center;
+  }
+  .intro-stats div strong {
+    font-size: 1.35rem;
+  }
+  .intro-stats div span {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.74rem;
+  }
+
+  /* Cover cards: two a row, in the rail and on the Apps page */
+  .rail-track {
+    grid-auto-columns: 46%;
+    gap: 10px;
+    margin-right: calc(var(--gutter) * -1);
+    padding-right: var(--gutter);
+    scroll-padding-inline: 0 var(--gutter);
+  }
+  .apps-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .card-cover {
+    aspect-ratio: 4 / 3;
+  }
+  .card-badges {
+    top: 7px;
+    left: 7px;
+    right: 7px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 4px;
+  }
+  .card-badges .chip {
+    height: 22px;
+    padding-inline: 7px;
+    border-radius: 7px;
+    font-size: 0.66rem;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .card-body {
+    gap: 9px;
+    padding: 0 10px 10px;
+  }
+  .card-id {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+    margin-top: -20px;
+  }
+  .card-id > div {
+    min-width: 0;
+    max-width: 100%;
+  }
+  .card-id .app-icon {
+    --size: 40px !important;
+  }
+  .card-title {
+    font-size: 0.92rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .card-sub {
+    font-size: 0.72rem;
+  }
+  .card-dl {
+    font-size: 0.7rem;
+  }
+  .card-text {
+    display: none;
+  }
+  .card-foot .btn {
+    --btn-h: 38px;
+    gap: 6px;
+    padding-inline: 6px;
+    font-size: 0.8rem;
+  }
+
+  /* Tools: one short row each — icon, name, then the two buttons */
+  .tools-grid {
+    gap: 10px;
+  }
+  .tool {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+  }
+  .tool-top .app-icon {
+    --size: 48px !important;
+  }
+  .tool-top .chip,
+  .tool > p {
+    display: none;
+  }
+  .tool h3 {
+    font-size: 1rem;
+  }
+  .tool-tag {
+    margin-top: 2px;
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+  .tool-foot {
+    grid-column: 1 / -1;
+    margin-top: 0;
+  }
+  .tool-foot .btn-ghost {
+    border: 1px solid var(--line);
+  }
+
+  /* Install steps: number on the left */
+  .steps {
+    gap: 10px;
+  }
+  .step {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr);
+    column-gap: 14px;
+    padding: 14px;
+  }
+  .step-num {
+    grid-row: 1 / span 2;
+    width: 34px;
+    height: 34px;
+    margin-bottom: 0;
+  }
+  .step h3 {
+    font-size: 1rem;
+  }
+  .step p {
+    margin-top: 3px;
+    font-size: 0.86rem;
+    line-height: 1.5;
+  }
+
+  .banner {
+    padding: 20px;
+    gap: 16px;
+    border-radius: var(--r-lg);
+  }
+  .banner h2 {
+    font-size: 1.2rem;
+  }
+  .banner p {
+    font-size: 0.9rem;
+  }
+  .banner .btn {
+    width: 100%;
+  }
+
+  /* Apps page */
+  .page-hero {
+    padding-block: 22px 8px;
+  }
+  .page-hero h1 {
+    font-size: 1.6rem;
+  }
+  .page-hero p {
+    font-size: 0.95rem;
+  }
+  .crumbs {
+    margin-bottom: 12px;
+    font-size: 0.8rem;
+  }
+  .explorer {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    margin: 18px 0 16px;
+  }
+  .search {
+    height: 48px;
+    padding-inline: 14px;
+  }
+  .search-kbd {
+    display: none;
+  }
+  .explorer-bar {
+    gap: 10px;
+  }
+  .cat-filter {
+    flex-wrap: nowrap;
+    width: calc(100% + var(--gutter) * 2);
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .cat-filter::-webkit-scrollbar {
+    display: none;
+  }
+  .cat-pill {
+    flex: none;
+    height: 36px;
+    padding-inline: 12px;
+    font-size: 0.84rem;
+  }
+
+  /* App page */
+  .detail-hero {
+    padding-block: 18px 26px;
+  }
+  .detail-head {
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .detail-head .app-icon {
+    --size: 72px !important;
+  }
+  .detail-head h1 {
+    font-size: 1.55rem;
+  }
+  .detail-by {
+    margin-top: 4px;
+    font-size: 0.84rem;
+  }
+  .detail-tagline {
+    font-size: 1rem;
+  }
+  .detail-chips {
+    gap: 6px;
+    margin-top: 12px;
+  }
+  .detail-actions {
+    margin-top: 18px;
+  }
+  /* Download fills the row; Play in browser and Share sit side by side under it */
+  .detail-actions > * {
+    flex: 1 1 40%;
+    min-width: 0;
+  }
+  .detail-actions > a.btn-primary {
+    flex-basis: 100%;
+  }
+  .detail-actions .btn {
+    --btn-h: 50px;
+    padding-inline: 12px;
+  }
+  .detail-actions .share-btn .btn {
+    width: 100%;
+    border: 1px solid var(--line-2);
+  }
+  .detail-facts {
+    margin-top: 18px;
+  }
+  /* The cover is the first screenshot, so it is not shown twice */
+  .detail-art.has-gallery {
+    display: none;
+  }
+  .gallery {
+    grid-auto-flow: column;
+    grid-auto-columns: 86%;
+    gap: 10px;
+    margin-right: calc(var(--gutter) * -1);
+    padding-right: var(--gutter);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .gallery::-webkit-scrollbar {
+    display: none;
+  }
+  .gallery img {
+    scroll-snap-align: start;
+  }
+  .prose-lg p {
+    font-size: 0.96rem;
+  }
+  .feature {
+    padding: 13px;
+  }
+  .info-grid div {
+    padding: 13px;
+  }
+  .note {
+    padding: 14px;
+  }
+
+  /* Footer: Apps and Site side by side */
+  .footer {
+    margin-top: 16px;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 26px 20px;
+    padding-block: 32px 24px;
+  }
+  .footer-brand,
+  .footer-network {
+    grid-column: 1 / -1;
+  }
+  .footer-bottom {
+    padding-block: 16px 22px;
+  }
+}
+@media (max-width: 350px) {
+  .card-foot .btn svg {
+    display: none;
   }
 }

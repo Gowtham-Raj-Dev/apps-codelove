@@ -151,7 +151,7 @@ export default async function AppDetailPage({ params }) {
             </div>
 
             {app.cover && (
-              <div className="detail-art">
+              <div className={`detail-art${app.gallery.length > 1 ? " has-gallery" : ""}`}>
                 {/* eslint-disable-next-line @next/next/no-img-element -- static export, local art */}
                 <img src={assetUrl(app.cover)} alt={`${app.name} cover art`} width={1200} height={630} fetchPriority="high" />
               </div>
