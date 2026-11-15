@@ -474,7 +474,8 @@ main {
   color: var(--text-3);
   font-size: 0.92rem;
 }
-.footer h4 {
+/* h2, not h4: the footer headings follow the page's last h2, and skipping levels confuses screen readers. */
+.footer h2 {
   margin-bottom: 14px;
   font-size: 0.74rem;
   letter-spacing: 0.14em;

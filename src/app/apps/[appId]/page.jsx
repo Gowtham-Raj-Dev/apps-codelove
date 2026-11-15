@@ -10,7 +10,7 @@ import ShareButton from "@/components/ShareButton";
 import Rail from "@/components/Rail";
 import { Icon } from "@/components/icons";
 import { apps, getAppById, getRelatedApps } from "@/data/apps";
-import { site } from "@/data/site";
+import { site, PERSON_ID, ORG_ID, WEBSITE_ID } from "@/data/site";
 import { assetUrl } from "@/lib/asset";
 
 export function generateStaticParams() {
@@ -22,16 +22,18 @@ export async function generateMetadata({ params }) {
   const app = getAppById(appId);
   if (!app) return { title: "App not found" };
 
+  // Short enough not to be cut off in search results (about 60-70 characters with the " — CodeLove Apps" suffix).
+  const title = app.genre ? `${app.name}: free ${app.genre.toLowerCase()} game for Android` : `${app.name} — ${app.tagline}`;
   const description = app.comingSoon
-    ? `${app.tagline}. ${app.description} ${app.name} for Android is coming soon to CodeLove Apps.`
-    : `${app.tagline}. ${app.description} Download the free ${app.name} Android APK (v${app.version}, ${app.size}).`;
+    ? `${app.description} ${app.name} for Android is coming soon to CodeLove Apps.`
+    : `${app.description} Free APK download for Android (v${app.version}, ${app.size}).`;
   const image = app.cover ? [{ url: app.cover, width: 1200, height: 630, alt: app.name }] : undefined;
   return {
-    title: `${app.name} — ${app.tagline}`,
+    title,
     description,
     alternates: { canonical: `/apps/${app.id}/` },
-    openGraph: { title: `${app.name} — ${app.tagline}`, description, url: `${site.url}/apps/${app.id}`, type: "website", images: image },
-    twitter: { card: "summary_large_image", title: `${app.name} — ${app.tagline}`, description, images: image?.map((i) => i.url) },
+    openGraph: { title, description, url: `${site.url}/apps/${app.id}/`, type: "website", images: image },
+    twitter: { card: "summary_large_image", title, description, images: image?.map((i) => i.url) },
   };
 }
 
@@ -66,8 +68,10 @@ export default async function AppDetailPage({ params }) {
     fileSize: app.size,
     ...(app.cover ? { image: new URL(app.cover, site.url).href } : {}),
     ...(app.comingSoon ? {} : { downloadUrl: new URL(app.apkUrl, site.url).href }),
-    author: { "@type": "Person", name: site.developer, url: site.parentSiteUrl },
-    publisher: { "@id": "https://codelove.in/#organization" },
+    url: `${site.url}/apps/${app.id}/`,
+    author: { "@id": PERSON_ID },
+    publisher: { "@id": ORG_ID },
+    isPartOf: { "@id": WEBSITE_ID },
     offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
   };
 

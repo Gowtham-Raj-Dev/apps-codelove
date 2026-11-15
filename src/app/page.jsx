@@ -5,6 +5,7 @@ import Rail from "@/components/Rail";
 import AppCard from "@/components/AppCard";
 import ToolCard from "@/components/ToolCard";
 import { apps, getAppById } from "@/data/apps";
+import { site, WEBSITE_ID } from "@/data/site";
 
 // Games shown in the big carousel at the top, in order
 const SPOTLIGHT = ["kingdom-clash", "patti-veedu", "turbo-karts", "crypt-knight", "cannon-cove", "skate-rush"];
@@ -19,8 +20,28 @@ export default function HomePage() {
     .sort((a, b) => Number(!!a.comingSoon) - Number(!!b.comingSoon));
   const tools = apps.filter((a) => a.category !== "Games" || a.id === "javaplay");
 
+  // The list of apps on this page, for search engines.
+  const listJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: site.title,
+    url: `${site.url}/`,
+    isPartOf: { "@id": WEBSITE_ID },
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: games.length + tools.length,
+      itemListElement: [...games, ...tools].map((app, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: app.name,
+        url: `${site.url}/apps/${app.id}/`,
+      })),
+    },
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(listJsonLd) }} />
       <section className="spotlight" aria-label="Featured">
         <div className="container">
           <Spotlight slides={slides} />

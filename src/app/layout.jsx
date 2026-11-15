@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { site } from "@/data/site";
+import { site, PERSON_ID, ORG_ID, WEBSITE_ID } from "@/data/site";
 import { assetUrl } from "@/lib/asset";
 
 import "@/styles/app.css";
@@ -48,7 +48,39 @@ export const metadata = {
   robots: { index: true, follow: true },
 };
 
-const HUB_SCRIPT = "if(/CodeloveHub\\//.test(navigator.userAgent))document.documentElement.classList.add('in-hub')";
+// Who made the site and who publishes it: the same "@id"s as every other CodeLove site.
+const siteJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": PERSON_ID,
+      name: site.developer,
+      alternateName: ["Gowthamraj", "Gowtham Raj"],
+      url: "https://gowtham.codelove.in",
+    },
+    {
+      "@type": "Organization",
+      "@id": ORG_ID,
+      name: "CodeLove",
+      url: site.parentSiteUrl,
+      founder: { "@id": PERSON_ID },
+    },
+    {
+      "@type": "WebSite",
+      "@id": WEBSITE_ID,
+      name: site.name,
+      alternateName: ["CodeLove Android Apps", "CodeLove APK"],
+      url: `${site.url}/`,
+      description: site.description,
+      inLanguage: "en",
+      creator: { "@id": PERSON_ID },
+      publisher: { "@id": ORG_ID },
+    },
+  ],
+};
+
+const HUB_SCRIPT ="if(/CodeloveHub\\//.test(navigator.userAgent))document.documentElement.classList.add('in-hub')";
 
 export default function RootLayout({ children }) {
   return (
@@ -62,6 +94,7 @@ export default function RootLayout({ children }) {
         <script defer src={assetUrl("/dl.js")} />
       </head>
       <body className={inter.variable}>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }} />
         <a href="#main" className="skip-link">
           Skip to content
         </a>

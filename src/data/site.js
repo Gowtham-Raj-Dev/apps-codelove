@@ -11,7 +11,7 @@ export const site = {
   tagline: "Free Android games and tools by CodeLove.",
   title: "CodeLove Apps — Free Android Games and Tools (APK)",
   description:
-    "Download free Android apps by CodeLove: 3D games that play full screen in landscape, a video cutter, video to GIF, Instagram downloader, link in bio and the JavaPlay Java game emulator.",
+    "Free Android apps by CodeLove: full-screen 3D games, plus a video cutter, video to GIF, Insta downloader, link in bio and the JavaPlay Java game emulator.",
   year: 2026,
   contactUrl: "https://codelove.in",
   social: {
@@ -19,6 +19,11 @@ export const site = {
     github: "",
   },
 };
+
+// Schema.org "@id"s shared by every CodeLove site, so search engines see one publisher and one creator.
+export const ORG_ID = "https://codelove.in/#organization";
+export const PERSON_ID = "https://gowtham.codelove.in/#person";
+export const WEBSITE_ID = "https://apps.codelove.in/#website";
 
 // Header navigation
 export const navLinks = [

@@ -1,0 +1,30 @@
+# CodeLove Apps (apps.codelove.in)
+
+> Free Android apps by CodeLove, made by Gowtham. Every game is its own small APK that plays full screen in landscape with touch controls; the tools are the CodeLove web tools as Android apps. No account, no Google Play needed: download the APK and install it.
+
+## Games
+- [Kingdom Clash](https://apps.codelove.in/apps/kingdom-clash/): Base-building strategy. Build a village, train an army, raid rivals online or play the 100-stage campaign.
+- [Patti Veedu](https://apps.codelove.in/apps/patti-veedu/): Tamil horror puzzle. Survive five nights in grandma's house.
+- [Turbo Karts](https://apps.codelove.in/apps/turbo-karts/): Kart racing over nine circuits, with online races.
+- [Crypt Knight](https://apps.codelove.in/apps/crypt-knight/): Action roguelite in a crypt of skeletons.
+- [Cannon Cove](https://apps.codelove.in/apps/cannon-cove/): Naval trading and cannon battles.
+- [Skate Rush](https://apps.codelove.in/apps/skate-rush/): Endless skateboard runner.
+- [Sky Hop](https://apps.codelove.in/apps/sky-hop/), [Saucer Siege](https://apps.codelove.in/apps/saucer-siege/), [Siege Smash](https://apps.codelove.in/apps/siege-smash/), [Putt Paradise](https://apps.codelove.in/apps/putt-paradise/), [Hex Haven](https://apps.codelove.in/apps/hex-haven/), [Order Up](https://apps.codelove.in/apps/order-up/), [Beat Street](https://apps.codelove.in/apps/beat-street/)
+
+## Tools
+- [Insta Downloader](https://apps.codelove.in/apps/insta-downloader/): Save Instagram and Pinterest videos and photos to your phone.
+- [Video Cut](https://apps.codelove.in/apps/videocut/): Cut long videos into Shorts and equal parts, on the phone.
+- [Video to GIF](https://apps.codelove.in/apps/video-to-gif/): Turn videos into GIFs: trim, crop, size and speed.
+- [Link in Bio](https://apps.codelove.in/apps/link-in-bio/): Build a free link-in-bio page from your phone.
+- [JavaPlay](https://apps.codelove.in/apps/javaplay/): Java (J2ME) game emulator with 160+ free games built in.
+
+## Pages
+- [All apps](https://apps.codelove.in/apps/)
+- [About](https://apps.codelove.in/about/)
+
+## CodeLove network
+- [CodeLove](https://codelove.in)
+- [Free 3D Games](https://games.codelove.in): the same games, playable in the browser
+- [Free 3D Models](https://models.codelove.in)
+- [Free AI Video Maker](https://videomaker.codelove.in)
+- [Free Java Games](https://javaplay.codelove.in)

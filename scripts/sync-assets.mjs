@@ -76,7 +76,8 @@ async function icon(source, out, { crop = false } = {}) {
   await image
     // Game covers are wide: take the most interesting square. Real icons are only scaled.
     .resize(512, 512, crop ? { fit: "cover", position: sharp.strategy.attention } : { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
-    .png()
+    // 256-colour PNG: about a quarter of the size (a game icon drops from ~300 KB to ~85 KB) with no visible change.
+    .png({ palette: true, quality: 90, effort: 10, compressionLevel: 9 })
     .toFile(out);
 }
 

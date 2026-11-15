@@ -17,7 +17,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4>Apps</h4>
+            <h2>Apps</h2>
             <ul>
               {[...games, ...tools].map((app) => (
                 <li key={app.id}>
@@ -28,7 +28,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4>Site</h4>
+            <h2>Site</h2>
             <ul>
               {footerLinks.map((link) => (
                 <li key={link.href}>
@@ -39,7 +39,7 @@ export default function Footer() {
           </div>
 
           <nav className="footer-network" aria-label="CodeLove network">
-            <h4>CodeLove network</h4>
+            <h2>CodeLove network</h2>
             <ul>
               {networkLinks.map((link) => (
                 <li key={link.href}>
