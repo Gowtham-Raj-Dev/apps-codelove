@@ -16,6 +16,14 @@ export const webApps = [
   {
     id: "insta-downloader",
     name: "Insta Downloader",
+    seoTitle: "Instagram Downloader App for Android — Free APK",
+    heading: "Insta Downloader: Instagram Downloader App",
+    searchAnswer: [
+      {
+        h: "An Instagram downloader app with Share to download",
+        p: "Tap Share on a reel or post in Instagram and pick Insta Downloader: the link opens ready to save, and the video or photo goes to your Downloads folder. It also saves Pinterest videos and images, takes many links at once and never asks for your Instagram password.",
+      },
+    ],
     tagline: "Save Instagram and Pinterest videos and photos",
     category: "Media",
     description:
@@ -88,6 +96,14 @@ export const webApps = [
   {
     id: "videocut",
     name: "VideoCut",
+    seoTitle: "Video Cutter App for Android — Free APK",
+    heading: "VideoCut: Video Cutter App",
+    searchAnswer: [
+      {
+        h: "A free video cutter app for Shorts and parts",
+        p: "VideoCut cuts a long video from your phone into vertical Shorts (up to 60 seconds) or equal parts, with a preview of every cut. Save the clips one by one or as a ZIP. The cutting happens on your phone, nothing is uploaded and there is no watermark.",
+      },
+    ],
     tagline: "Cut long videos into Shorts and parts",
     category: "Media",
     description:
@@ -123,6 +139,14 @@ export const webApps = [
   {
     id: "video-to-gif",
     name: "Video to GIF",
+    seoTitle: "Video to GIF App for Android — Free APK",
+    heading: "Video to GIF App",
+    searchAnswer: [
+      {
+        h: "How to download a video as a GIF on Android",
+        p: "Install the free Video to GIF APK from this page, open it and pick a video from your gallery. Trim the part you want, crop it, choose the size, frame rate and speed, then save: the GIF goes to your Downloads folder, ready to share on WhatsApp or Instagram. The conversion runs on your phone, so the video is not uploaded.",
+      },
+    ],
     tagline: "Turn any video into a GIF",
     category: "Creative",
     description:
@@ -158,6 +182,14 @@ export const webApps = [
   {
     id: "javaplay",
     name: "JavaPlay",
+    seoTitle: "Java Game Emulator APK — JavaPlay for Android",
+    heading: "JavaPlay: Java Game Emulator",
+    searchAnswer: [
+      {
+        h: "A Java game emulator APK for old keypad-phone games",
+        p: "JavaPlay is a free J2ME emulator APK for Android. Open any .jar game from your phone's storage or pick one of the 160+ free, open-licence games in the catalogue, then play with the on-screen keypad. The whole app is about 245 KB and plays offline.",
+      },
+    ],
     tagline: "Play classic Java (J2ME) phone games",
     category: "Games",
     description:

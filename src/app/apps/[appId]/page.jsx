@@ -23,7 +23,8 @@ export async function generateMetadata({ params }) {
   if (!app) return { title: "App not found" };
 
   // Short enough not to be cut off in search results (about 60-70 characters with the " — CodeLove Apps" suffix).
-  const title = app.genre ? `${app.name}: free ${app.genre.toLowerCase()} game for Android` : `${app.name} — ${app.tagline}`;
+  // app.seoTitle (optional) leads with the phrase people search for, e.g. "Video to GIF App for Android — Free APK".
+  const title = app.seoTitle || (app.genre ? `${app.name}: free ${app.genre.toLowerCase()} game for Android` : `${app.name} — ${app.tagline}`);
   const description = app.comingSoon
     ? `${app.description} ${app.name} for Android is coming soon to CodeLove Apps.`
     : `${app.description} Free APK download for Android (v${app.version}, ${app.size}).`;
@@ -100,7 +101,7 @@ export default async function AppDetailPage({ params }) {
               <div className="detail-head">
                 <AppIcon app={app} size={96} />
                 <div>
-                  <h1 id="app-title">{app.name}</h1>
+                  <h1 id="app-title">{app.heading || app.name}</h1>
                   <p className="detail-by">
                     {site.developer} · CodeLove · {app.genre || app.category}
                   </p>
@@ -191,6 +192,15 @@ export default async function AppDetailPage({ params }) {
                 <p key={i}>{paragraph}</p>
               ))}
             </div>
+            {/* Optional answer to the main search for this app (app.searchAnswer: [{ h, p }]) */}
+            {app.searchAnswer?.map((a) => (
+              <div key={a.h} style={{ marginTop: 24 }}>
+                <h2 style={{ marginBottom: 12 }}>{a.h}</h2>
+                <div className="prose-lg">
+                  <p>{a.p}</p>
+                </div>
+              </div>
+            ))}
           </div>
           <div>
             <h2 style={{ marginBottom: 16 }}>Features</h2>
