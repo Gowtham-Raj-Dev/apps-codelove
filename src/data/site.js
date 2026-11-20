@@ -36,6 +36,7 @@ export const navLinks = [
 export const footerLinks = [
   { label: "All apps", href: "/apps" },
   { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
   { label: "Privacy", href: "/privacy" },
   { label: "Terms", href: "/terms" },
 ];

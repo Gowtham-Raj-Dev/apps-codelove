@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import AdSenseScript from "@/components/AdSenseScript";
 import { site, PERSON_ID, ORG_ID, WEBSITE_ID } from "@/data/site";
 import { assetUrl } from "@/lib/asset";
 
@@ -80,6 +81,9 @@ const siteJsonLd = {
   ],
 };
 
+// Google AdSense publisher ID (same account as codelove.in). Empty string turns AdSense off.
+const ADSENSE_CLIENT = "ca-pub-1282068947061740";
+
 const HUB_SCRIPT ="if(/CodeloveHub\\//.test(navigator.userAgent))document.documentElement.classList.add('in-hub')";
 
 export default function RootLayout({ children }) {
@@ -88,12 +92,15 @@ export default function RootLayout({ children }) {
       <head>
         {/* Inside the CodeLove app (apps-hub.js): swap APK downloads for Play / Open before the first paint */}
         <script dangerouslySetInnerHTML={{ __html: HUB_SCRIPT }} />
+        {/* Google AdSense site ownership; the ad script itself loads after hydration (AdSenseScript) */}
+        {ADSENSE_CLIENT ? <meta name="google-adsense-account" content={ADSENSE_CLIENT} /> : null}
         {/* CodeLove Analytics (admin.codelove.in) */}
         <script defer src="https://admin.codelove.in/t.js" />
         {/* APK download counts (public/dl.js → Firestore dl/apps) */}
         <script defer src={assetUrl("/dl.js")} />
       </head>
       <body className={inter.variable}>
+        {ADSENSE_CLIENT ? <AdSenseScript client={ADSENSE_CLIENT} /> : null}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }} />
         <a href="#main" className="skip-link">
           Skip to content
