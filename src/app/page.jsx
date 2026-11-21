@@ -16,6 +16,47 @@ const FIND = [
   { id: "javaplay", title: "Java game emulator APK", text: "Play old .jar keypad-phone games, with 160+ free games built in.", link: "Java game emulator APK", href: "/apps/javaplay/" },
 ];
 
+// "How do I ...?" answers for the phrases people search; `href` + `link` add an anchor to the matching page.
+const FAQ = [
+  {
+    q: "How do I download free Android games from CodeLove Apps?",
+    a: "Open a game's page and tap Download APK. Every CodeLove game is free, needs no account, and runs full screen in landscape with touch controls.",
+    link: "Free Android games",
+    href: "/apps?category=Games",
+  },
+  {
+    q: "How do I use the video cutter app?",
+    a: "Pick a long video from your gallery, choose Shorts or equal parts, and the app cuts it for you on the phone.",
+    link: "Video cutter app",
+    href: "/apps/videocut/",
+    id: "videocut",
+  },
+  {
+    q: "How do I make a GIF with the video to GIF app?",
+    a: "Choose a clip from your gallery and turn it into a GIF, then save it to your phone to share.",
+    link: "Video to GIF app",
+    href: "/apps/video-to-gif/",
+    id: "video-to-gif",
+  },
+  {
+    q: "How do I save a reel with the Instagram downloader app?",
+    a: "Share the reel or post from Instagram to the app and it saves the file to your Downloads folder.",
+    link: "Instagram downloader app",
+    href: "/apps/insta-downloader/",
+    id: "insta-downloader",
+  },
+  {
+    q: "How do I play old Java phone games with the Java game emulator APK?",
+    a: "Install JavaPlay, then open a .jar file or pick one of the 160+ free games built in.",
+    link: "Java game emulator APK",
+    href: "/apps/javaplay/",
+    id: "javaplay",
+  },
+  {
+    q: "How do I install an APK from CodeLove Apps?",
+    a: "Download the APK, open it from your Downloads folder and allow your browser to install apps if Android asks. Updates install the same way, over the old version.",
+  },
+];
 // Games shown in the big carousel at the top, in order
 const SPOTLIGHT = ["kingdom-clash", "patti-veedu", "turbo-karts", "crypt-knight", "cannon-cove", "skate-rush"];
 
@@ -48,9 +89,17 @@ export default function HomePage() {
     },
   };
 
+  const faqItems = FAQ.filter((f) => !f.id || getAppById(f.id));
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqItems.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+  };
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(listJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <section className="spotlight" aria-label="Featured">
         <div className="container">
           <Spotlight slides={slides} />
@@ -152,6 +201,35 @@ export default function HomePage() {
               <p>Tap Install, then Open. Updates install the same way, over the old version.</p>
             </li>
           </ol>
+        </div>
+      </section>
+
+      <section className="section hub-hide" aria-labelledby="faq-title">
+        <div className="container">
+          <div className="section-head">
+            <div>
+              <h2 id="faq-title">Questions about CodeLove Apps</h2>
+              <p>Short answers about the free Android games and tools.</p>
+            </div>
+          </div>
+          <ul className="steps">
+            {faqItems.map((f) => (
+              <li key={f.q} className="step">
+                <h3>{f.q}</h3>
+                <p>
+                  {f.a}
+                  {f.href && (
+                    <>
+                      {" "}
+                      <Link href={f.href} className="link-more">
+                        {f.link} <ArrowRight size={14} aria-hidden="true" />
+                      </Link>
+                    </>
+                  )}
+                </p>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 

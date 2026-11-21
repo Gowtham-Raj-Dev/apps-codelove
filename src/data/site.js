@@ -50,6 +50,9 @@ export const networkLinks = [
   { label: "Link in Bio", href: "https://linkinbio.codelove.in" },
   { label: "Video to GIF", href: "https://videotogif.codelove.in" },
   { label: "Video to Images", href: "https://videotoimages.codelove.in" },
+  { label: "Video Cut", href: "https://videocut.codelove.in" },
+  { label: "Video Maker", href: "https://videomaker.codelove.in" },
   { label: "Free YouTube Automation", href: "https://utubeflow.codelove.in" },
   { label: "Free Java Games", href: "https://javaplay.codelove.in" },
+  { label: "Gowtham, creative web developer", href: "https://gowtham.codelove.in" },
 ];

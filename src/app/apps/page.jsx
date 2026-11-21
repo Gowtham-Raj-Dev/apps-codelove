@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import Link from "next/link";
 import Breadcrumb from "@/components/Breadcrumb";
 import AppExplorer from "@/components/AppExplorer";
 import { apps } from "@/data/apps";
@@ -25,7 +26,17 @@ export default function AppsPage() {
         <Suspense fallback={<div className="explorer" style={{ minHeight: 120 }} />}>
           <AppExplorer />
         </Suspense>
-      </div>
+        <nav aria-label="Every app" style={{ marginTop: 32 }}>
+          <h2 style={{ fontSize: "1.1rem", marginBottom: 8 }}>Every CodeLove app</h2>
+          <ul>
+            {apps.map((app) => (
+              <li key={app.id}>
+                <Link href={`/apps/${app.id}/`}>{app.name}</Link>
+                {app.tagline ? `: ${app.tagline}` : ""}
+              </li>
+            ))}
+          </ul>
+        </nav>      </div>
     </section>
   );
 }
