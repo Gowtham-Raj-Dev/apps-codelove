@@ -54,5 +54,6 @@ export const networkLinks = [
   { label: "Video Maker", href: "https://videomaker.codelove.in" },
   { label: "Free YouTube Automation", href: "https://utubeflow.codelove.in" },
   { label: "Free Java Games", href: "https://javaplay.codelove.in" },
+  { label: "Webly (Analytics & SEO)", href: "https://webly.codelove.in" },
   { label: "Gowtham, creative web developer", href: "https://gowtham.codelove.in" },
 ];

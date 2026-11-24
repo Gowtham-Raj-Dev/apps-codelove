@@ -223,4 +223,38 @@ export const webApps = [
       { version: "2.6.0", date: "October 2026", notes: ["Built-in browser for finding more Java games"] },
     ],
   },
+  {
+    id: "webly",
+    name: "Webly",
+    seoTitle: "Webly — Website Analytics & SEO Tools",
+    heading: "Webly: Website Analytics & SEO Tools",
+    tagline: "All your website metrics in one place",
+    category: "Productivity",
+    description:
+      "All your website metrics in one place. Connect GA4, Search Console and AdSense, audit 30+ SEO and speed points, and get instant copy-paste code fixes.",
+    about: [
+      "Webly brings your Google Analytics, Search Console and AdSense data into one unified dashboard with zero clutter.",
+      "Run deep 30+ check site audits, find broken links, track keyword rankings and get instant code fixes for every SEO issue.",
+    ],
+    version: "1.0.0",
+    size: "2 MB",
+    androidVersion: "Android 8.0+",
+    updated: UPDATED,
+    platform: "Android",
+    apkUrl: "/downloads/webly.apk",
+    webAppUrl: "https://webly.codelove.in/",
+    android: {
+      url: "https://webly.codelove.in/",
+      embedCss: EMBED_CSS,
+    },
+    icon: { name: "Sparkles", gradient: "linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)" },
+    iconImage: "",
+    accent: "#4f46e5",
+    features: [
+      { icon: "Activity", title: "Analytics in one place", text: "GA4 visitors, Search Console keywords, and AdSense revenue." },
+      { icon: "CheckCircle", title: "30+ Point SEO Audit", text: "Scans meta tags, headings, canonicals, and speed issues." },
+      { icon: "Zap", title: "Instant Code Fixes", text: "Ready-to-copy HTML, meta tags, and AI prompts for every problem." },
+    ],
+    releaseNotes: [{ version: "1.0.0", date: UPDATED, notes: ["First release"] }],
+  },
 ];
